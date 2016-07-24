@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">OscController</string>
+
+    <!-- General -->
+    <string name="edit">Edit</string>
+    <string name="title">Title</string>
+    <string name="ipAddress">IP Address</string>
+    <string name="portNumber">Port Number</string>
+    <string name="address">Address</string>
+    <string name="setup">Setup</string>
+    <string name="ok">OK</string>
+
+    <!-- Home Activity -->
+    <string name="remove_option">Remove option?</string>
+
+</resources>
