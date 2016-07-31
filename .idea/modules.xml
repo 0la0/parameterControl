@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/OscController3.iml" filepath="$PROJECT_DIR$/OscController3.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/native/native.iml" filepath="$PROJECT_DIR$/native/native.iml" />
     </modules>
   </component>
 </project>

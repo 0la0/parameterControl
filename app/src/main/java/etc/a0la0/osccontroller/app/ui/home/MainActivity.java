@@ -14,6 +14,7 @@ import butterknife.OnClick;
 import etc.a0la0.osccontroller.R;
 import etc.a0la0.osccontroller.app.ui.base.BaseActivity;
 import etc.a0la0.osccontroller.app.ui.edit.EditActivity;
+import etc.a0la0.osccontroller.app.ui.parameterspace.SpaceActivity;
 import etc.a0la0.osccontroller.app.ui.setup.SetupActivity;
 
 public class MainActivity extends BaseActivity implements MainPresenter.MainActivityView{
@@ -54,22 +55,16 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainActi
 
     @OnClick(R.id.addOption)
     public void onAddOptionClick() {
-        startEditActivity(presenter.getOptionList().size());
+        startActivity(presenter.getOptionList().size(), EditActivity.class);
     }
 
     public void setOptionCardList(List<String> optionTitleList) {
         optionTitleListAdapter.setOptionCardList(optionTitleList);
     }
 
-    private void startEditActivity(int position) {
-        Intent intent = new Intent(this, EditActivity.class);
-        intent.putExtra("OPTION_ID", position);
-        startActivity(intent);
-    }
-
     private void startActivity(int position, Class activityClass) {
         Intent intent = new Intent(this, activityClass);
-        intent.putExtra("OPTION_ID", position);
+        intent.putExtra(getString(R.string.option_id), position);
         startActivity(intent);
     }
 
@@ -83,7 +78,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainActi
 
         @Override
         public void onEditClick(int position) {
-            startEditActivity(position);
+            startActivity(position, EditActivity.class);
         }
 
         @Override
@@ -100,6 +95,11 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainActi
         @Override
         public void onSetupClick(int position) {
             startActivity(position, SetupActivity.class);
+        }
+
+        @Override
+        public void onParamSpaceClick(int position) {
+            startActivity(position, SpaceActivity.class);
         }
 
     }

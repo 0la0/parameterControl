@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -39,7 +38,7 @@ public class EditActivity extends BaseActivity implements EditPresenter.EditView
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        int position = intent.getIntExtra("OPTION_ID", 0); //TODO: put extras in main activity
+        int position = intent.getIntExtra(getString(R.string.option_id), 0);
         presenter.init(this, position);
 
         titleTextField.setText(presenter.getOption().getTitle());

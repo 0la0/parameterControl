@@ -32,12 +32,7 @@ public class OscClient {
     }
 
     public void stop() {
-        //try {
-            oscWorker.interrupt();
-//            //oscWorker.join();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        oscWorker.interrupt();
     }
 
     private Thread buildServerThread () {

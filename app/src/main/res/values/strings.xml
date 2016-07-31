@@ -1,16 +1,26 @@
 <resources>
-    <string name="app_name">OscController</string>
+    <string name="app_name">ParameterController</string>
 
     <!-- General -->
+    <string name="ok">OK</string>
+
+    <!-- Intent Extras -->
+    <string name="option_id">OPTION_ID</string>
+
+    <!-- Home Activity -->
+    <string name="remove_option">Remove option?</string>
+
+    <!-- Edit Activity -->
     <string name="edit">Edit</string>
     <string name="title">Title</string>
     <string name="ipAddress">IP Address</string>
     <string name="portNumber">Port Number</string>
     <string name="address">Address</string>
-    <string name="setup">Setup</string>
-    <string name="ok">OK</string>
 
-    <!-- Home Activity -->
-    <string name="remove_option">Remove option?</string>
+    <!-- Setup Activity -->
+    <string name="setup">Setup</string>
+
+    <!-- Parameter Space Activity -->
+    <string name="parameter_space">Parameter Space</string>
 
 </resources>

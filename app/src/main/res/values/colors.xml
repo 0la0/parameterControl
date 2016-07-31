@@ -10,4 +10,6 @@
 
     <color name="preset_unselected">#999999</color>
     <color name="preset_selected">#CCCCCC</color>
+
+    <color name="black">#000000</color>
 </resources>

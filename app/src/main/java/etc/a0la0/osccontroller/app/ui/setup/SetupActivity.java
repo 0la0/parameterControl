@@ -2,7 +2,6 @@ package etc.a0la0.osccontroller.app.ui.setup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.annimon.stream.Collectors;
@@ -49,7 +48,7 @@ public class SetupActivity extends BaseActivity implements SetupPresenter.View{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        int position = intent.getIntExtra("OPTION_ID", 0); //TODO: put extras in main activity
+        int position = intent.getIntExtra(getString(R.string.option_id), 0);
         presenter.init(this, position);
 
         parameterList = presenter.getParameterList();
