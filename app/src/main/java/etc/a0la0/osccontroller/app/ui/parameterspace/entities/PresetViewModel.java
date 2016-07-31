@@ -1,8 +1,6 @@
 package etc.a0la0.osccontroller.app.ui.parameterspace.entities;
 
-import etc.a0la0.osccontroller.anative.NativeHelper;
-
-public class PresetViewModel extends Thread {
+public class PresetViewModel {
 
     private int centerX;
     private int centerY;
@@ -50,8 +48,16 @@ public class PresetViewModel extends Thread {
         return pixelValue[index];
     }
 
+    public int getWidth() {
+        return width;
+    }
+
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public void setHeight(int height) {
@@ -66,28 +72,50 @@ public class PresetViewModel extends Thread {
         this.standardDeviation = standardDeviation;
     }
 
+    public float getAmplitude() {
+        return amplitude;
+    }
+
+    public void setAmplitude(float amplitude) {
+        this.amplitude = amplitude;
+    }
+
+    public int getR() {
+        return r;
+    }
+
+    public void setR(int r) {
+        this.r = r;
+    }
+
+    public int getG() {
+        return g;
+    }
+
+    public void setG(int g) {
+        this.g = g;
+    }
+
+    public int getB() {
+        return b;
+    }
+
+    public void setB(int b) {
+        this.b = b;
+    }
+
+    public void setMatrix(float[] matrix) {
+        this.matrix = matrix;
+    }
+
+    public void setPixelValue(int[] pixelValue) {
+        this.pixelValue = pixelValue;
+    }
+
     public int[] getPixelValueArray(int startIndex, int length) {
         int[] copiedValues = new int[length];
         System.arraycopy(pixelValue, startIndex, copiedValues, 0, length);
         return copiedValues;
-    }
-
-    public void calculateMatrixNative() {
-        matrix = new float[width * height];
-        pixelValue = new int[width * height];
-
-        NativeHelper nativeHelper = new NativeHelper();
-        nativeHelper.calcMatricies(
-                width, height, centerX, centerY,
-                standardDeviation, amplitude,
-                matrix, pixelValue,
-                r, g, b
-        );
-    }
-
-    @Override
-    public void run() {
-        calculateMatrixNative();
     }
 
 }

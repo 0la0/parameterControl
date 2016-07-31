@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.ArrayList;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
 import java.util.List;
 
 import etc.a0la0.osccontroller.app.data.entities.Preset;
@@ -27,9 +29,10 @@ public class EditSpaceView extends View {
         super(context, attrs);
     }
 
-    public void init(int optionIndex, List<Preset> presetList) {
+    public void init(int optionIndex, List<Preset> presetList, List<PresetViewModel> viewModelList) {
         //this.optionIndex = optionIndex;
         this.presetList = presetList;
+        this.viewModelList = viewModelList;
     }
 
     @Override
@@ -40,28 +43,23 @@ public class EditSpaceView extends View {
 
         long start = System.currentTimeMillis();
         Log.i("matrices", "start ");
-        viewModelList = new ArrayList<>();
 
-        List<Thread> threadList = new ArrayList<>();
+        Stream.of(viewModelList)
+                .forEach(viewModel -> {
+                    viewModel.setWidth(width);
+                    viewModel.setHeight(height);
+                });
 
-        for (int i = 0; i < presetList.size(); i++) {
-            PresetViewModel viewModel = new PresetViewModel(
-                    (int) (width * Math.random()),
-                    (int) (height * Math.random()),
-                    width, height,
-                    (int) (255 * Math.random()),
-                    (int) (255 * Math.random()),
-                    (int) (255 * Math.random())
-            );
-            threadList.add(viewModel);
-            viewModelList.add(viewModel);
-        }
+        List<KernelCalculatorHelper> threadList = Stream.of(viewModelList)
+                .map(presetViewModel -> {
+                    KernelCalculatorHelper thread = new KernelCalculatorHelper(presetViewModel);
+                    thread.start();
+                    return thread;
+                })
+                .collect(Collectors.toList());
 
-        for (Thread thread : threadList) {
-            thread.start();
-        }
         try {
-            for (Thread thread : threadList) {
+            for (KernelCalculatorHelper thread : threadList) {
                 thread.join();
             }
         } catch (InterruptedException e) {
@@ -89,6 +87,19 @@ public class EditSpaceView extends View {
             Log.i("OnTouch", "Move");
         }
         return true;
+    }
+
+    public void onPresetChange(PresetViewModel vm) {
+        KernelCalculatorHelper thread = new KernelCalculatorHelper(vm);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        draw(canvas);
+        invalidate();
     }
 
     private void drawValueMatrix(Canvas canvas, List<PresetViewModel> viewModelList) {
