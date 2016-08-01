@@ -1,5 +1,7 @@
 package etc.a0la0.osccontroller.app.ui.parameterspace;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,11 +80,40 @@ public class SpaceActivity extends BaseActivity implements SpacePresenter.View {
         view.setEventDelegate(new PresetLocationView.EventDelegate(){
             @Override
             public void onNewPosition() {
-                Log.i("Preset", "OnNewPosition");
                 editSpaceView.onPresetChange(presetViewModel);
+            }
+            @Override
+            public void onOpenEdit() {
+                openEditDialog(presetViewModel);
             }
         });
         return view;
+    }
+
+    public void openEditDialog(PresetViewModel presetViewModel) {
+        PresetEditDialogView presetEditDialogView = new PresetEditDialogView(this);
+        presetEditDialogView.setPresetViewModel(presetViewModel);
+
+        new AlertDialog.Builder(this)
+                .setView(presetEditDialogView)
+                .setNegativeButton(getString(R.string.cancel), null)
+                .setPositiveButton(getString(R.string.ok), (DialogInterface dialog, int id) -> {
+
+                    float std = presetEditDialogView.getStandardDeviation();
+                    float amplitude = presetEditDialogView.getAmplitude();
+                    int red = presetEditDialogView.getRed();
+                    int green = presetEditDialogView.getGreen();
+                    int blue = presetEditDialogView.getBlue();
+
+                    presetViewModel.setStandardDeviation(std);
+                    presetViewModel.setAmplitude(amplitude);
+                    presetViewModel.setR(red);
+                    presetViewModel.setG(green);
+                    presetViewModel.setB(blue);
+                    editSpaceView.onPresetChange(presetViewModel);
+                })
+                .create()
+                .show();
     }
 
 }

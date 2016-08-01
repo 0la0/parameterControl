@@ -29,6 +29,7 @@ public class PresetLocationView extends FrameLayout {
 
     interface EventDelegate {
         void onNewPosition();
+        void onOpenEdit();
     }
 
     public PresetLocationView(Context context) {
@@ -65,9 +66,10 @@ public class PresetLocationView extends FrameLayout {
 
     @OnLongClick(R.id.presetIcon)
     public boolean onLongClick() {
-        if (isMoving) {
+        if (isMoving || eventDelegate == null) {
             return false;
         }
+        eventDelegate.onOpenEdit();
         return true;
     }
 

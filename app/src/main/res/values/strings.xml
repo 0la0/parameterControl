@@ -3,6 +3,7 @@
 
     <!-- General -->
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Intent Extras -->
     <string name="option_id">OPTION_ID</string>
@@ -22,5 +23,11 @@
 
     <!-- Parameter Space Activity -->
     <string name="parameter_space">Parameter Space</string>
+    <string name="standard_deviation">Standard Deviation</string>
+    <string name="amplitude">Amplitude</string>
+    <string name="color">Color</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
 
 </resources>

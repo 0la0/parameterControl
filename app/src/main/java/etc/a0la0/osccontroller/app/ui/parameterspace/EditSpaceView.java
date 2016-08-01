@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.annimon.stream.Collectors;
@@ -75,18 +74,6 @@ public class EditSpaceView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawValueMatrix(canvas, viewModelList);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int eventAction = event.getAction();
-        if (eventAction == MotionEvent.ACTION_DOWN) {
-            Log.i("OnTouch", "Down");
-        }
-        else if (eventAction == MotionEvent.ACTION_MOVE) {
-            Log.i("OnTouch", "Move");
-        }
-        return true;
     }
 
     public void onPresetChange(PresetViewModel vm) {
