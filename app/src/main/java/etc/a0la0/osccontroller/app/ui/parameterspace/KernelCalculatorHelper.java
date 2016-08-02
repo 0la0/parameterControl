@@ -1,38 +1,38 @@
 package etc.a0la0.osccontroller.app.ui.parameterspace;
 
 import etc.a0la0.osccontroller.anative.NativeHelper;
-import etc.a0la0.osccontroller.app.ui.parameterspace.entities.PresetViewModel;
+import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 
 public class KernelCalculatorHelper extends Thread {
 
-    private PresetViewModel presetViewModel;
+    private SpacePreset spacePreset;
 
-    public KernelCalculatorHelper(PresetViewModel presetViewModel) {
-        this.presetViewModel = presetViewModel;
+    public KernelCalculatorHelper(SpacePreset spacePreset) {
+        this.spacePreset = spacePreset;
     }
 
     public void calculateMatrixNative() {
-        int size = presetViewModel.getWidth() * presetViewModel.getHeight();
+        int size = spacePreset.getWidth() * spacePreset.getHeight();
         float[] matrix = new float[size];
         int[] pixelValue = new int[size];
 
         NativeHelper nativeHelper = new NativeHelper();
         nativeHelper.calcMatricies(
-                presetViewModel.getWidth(),
-                presetViewModel.getHeight(),
-                presetViewModel.getCenterX(),
-                presetViewModel.getCenterY(),
-                presetViewModel.getStandardDeviation(),
-                presetViewModel.getAmplitude(),
+                spacePreset.getWidth(),
+                spacePreset.getHeight(),
+                spacePreset.getCenterX(),
+                spacePreset.getCenterY(),
+                spacePreset.getStandardDeviation(),
+                spacePreset.getAmplitude(),
                 matrix,
                 pixelValue,
-                presetViewModel.getR(),
-                presetViewModel.getG(),
-                presetViewModel.getB()
+                spacePreset.getR(),
+                spacePreset.getG(),
+                spacePreset.getB()
         );
 
-        presetViewModel.setMatrix(matrix);
-        presetViewModel.setPixelValue(pixelValue);
+        spacePreset.setMatrix(matrix);
+        spacePreset.setPixelValue(pixelValue);
     }
 
     @Override

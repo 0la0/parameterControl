@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.OnLongClick;
 import butterknife.OnTouch;
 import etc.a0la0.osccontroller.R;
-import etc.a0la0.osccontroller.app.ui.parameterspace.entities.PresetViewModel;
+import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 
 public class PresetLocationView extends FrameLayout {
 
@@ -24,7 +24,7 @@ public class PresetLocationView extends FrameLayout {
     private final int ICON_HALF_SIZE = (int) getResources().getDimension(R.dimen.space_preset_icon_half_size);
     private boolean isMoving = false;
     private float dX, dY, rawX, rawY;
-    private PresetViewModel presetViewModel;
+    private SpacePreset spacePreset;
     private EventDelegate eventDelegate;
 
     interface EventDelegate {
@@ -59,9 +59,9 @@ public class PresetLocationView extends FrameLayout {
         this.eventDelegate = eventDelegate;
     }
 
-    public void setPresetViewModel(PresetViewModel presetViewModel) {
-        this.presetViewModel = presetViewModel;
-        moveTo(presetViewModel.getCenterX(), presetViewModel.getCenterY());
+    public void setSpacePreset(SpacePreset spacePreset) {
+        this.spacePreset = spacePreset;
+        moveTo(spacePreset.getCenterX(), spacePreset.getCenterY());
     }
 
     @OnLongClick(R.id.presetIcon)
@@ -101,8 +101,8 @@ public class PresetLocationView extends FrameLayout {
                 int x = (int) (event.getRawX() + dX + ICON_HALF_SIZE);
                 int y = (int) (event.getRawY() + dY + ICON_HALF_SIZE);
 
-                presetViewModel.setCenterX(x);
-                presetViewModel.setCenterY(y);
+                spacePreset.setCenterX(x);
+                spacePreset.setCenterY(y);
 
                 if (eventDelegate != null) {
                     eventDelegate.onNewPosition();

@@ -12,6 +12,7 @@ public class Option {
     private int port;
     private List<Parameter> parameterList;
     private List<Preset> presetList;
+    private List<SpacePreset> spacePresetList;
 
     public Option(String title, String ipAddress, int port, List<Parameter> parameterList, List<Preset> presetList) {
         this.title = title;
@@ -65,4 +66,11 @@ public class Option {
         presetList.add(preset);
     }
 
+    public List<SpacePreset> getSpacePresetList() {
+        return spacePresetList;
+    }
+
+    public void setSpacePresetList(List<SpacePreset> spacePresetList) {
+        this.spacePresetList = spacePresetList;
+    }
 }

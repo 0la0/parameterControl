@@ -14,7 +14,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import etc.a0la0.osccontroller.R;
-import etc.a0la0.osccontroller.app.ui.parameterspace.entities.PresetViewModel;
+import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 
 public class PresetEditDialogView extends FrameLayout {
 
@@ -56,23 +56,23 @@ public class PresetEditDialogView extends FrameLayout {
         seekBarBlue.setOnSeekBarChangeListener(seekBarListener);
     }
 
-    public void setPresetViewModel(PresetViewModel presetViewModel) {
-        standardDeviationTextField.setText(presetViewModel.getStandardDeviation() + "");
-        amplitudeTextField.setText(presetViewModel.getAmplitude() + "");
+    public void setPresetViewModel(SpacePreset spacePreset) {
+        standardDeviationTextField.setText(spacePreset.getStandardDeviation() + "");
+        amplitudeTextField.setText(spacePreset.getAmplitude() + "");
 
-        redTextDisplay.setText(presetViewModel.getR() + "");
-        seekBarRed.setProgress(presetViewModel.getR());
+        redTextDisplay.setText(spacePreset.getR() + "");
+        seekBarRed.setProgress(spacePreset.getR());
 
-        greenTextDisplay.setText(presetViewModel.getG() + "");
-        seekBarGreen.setProgress(presetViewModel.getG());
+        greenTextDisplay.setText(spacePreset.getG() + "");
+        seekBarGreen.setProgress(spacePreset.getG());
 
-        blueTextDisplay.setText(presetViewModel.getB() + "");
-        seekBarBlue.setProgress(presetViewModel.getB());
+        blueTextDisplay.setText(spacePreset.getB() + "");
+        seekBarBlue.setProgress(spacePreset.getB());
 
         colorBar.setBackgroundColor(Color.rgb(
-                presetViewModel.getR(),
-                presetViewModel.getG(),
-                presetViewModel.getB()
+                spacePreset.getR(),
+                spacePreset.getG(),
+                spacePreset.getB()
         ));
     }
 

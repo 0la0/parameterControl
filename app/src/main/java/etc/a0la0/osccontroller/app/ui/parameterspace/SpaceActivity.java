@@ -4,21 +4,17 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.annimon.stream.Stream;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import etc.a0la0.osccontroller.R;
 import etc.a0la0.osccontroller.app.data.entities.Preset;
+import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 import etc.a0la0.osccontroller.app.ui.base.BaseActivity;
-import etc.a0la0.osccontroller.app.ui.parameterspace.entities.PresetViewModel;
 
 public class SpaceActivity extends BaseActivity implements SpacePresenter.View {
 
@@ -46,53 +42,41 @@ public class SpaceActivity extends BaseActivity implements SpacePresenter.View {
         presenter.init(this, position);
 
         List<Preset> presetList = presenter.getPresetList();
+        List<SpacePreset> spacePresetList = presenter.getSpacePresetList();
 
-        List<PresetViewModel> viewModelList = new ArrayList<>();
-
-        for (int i = 0; i < presetList.size(); i++) {
-            PresetViewModel viewModel = new PresetViewModel(
-                    (int) (500 * Math.random()),
-                    (int) (600 * Math.random()),
-                    500, 600,
-                    (int) (255 * Math.random()),
-                    (int) (255 * Math.random()),
-                    (int) (255 * Math.random())
-            );
-            viewModelList.add(viewModel);
+        editSpaceView.init(position, presetList, spacePresetList);
+        for (SpacePreset spacePreset : spacePresetList) {
+            iconContainer.addView(createPresetLocationView(spacePreset));
         }
-
-        editSpaceView.init(position, presetList, viewModelList);
-        Stream.of(viewModelList).forEach(presetViewModel -> {
-            iconContainer.addView(createPresetLocationView(presetViewModel));
-        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        presenter.persistState();
         presenter.detachView();
     }
 
-    private PresetLocationView createPresetLocationView(PresetViewModel presetViewModel) {
+    private PresetLocationView createPresetLocationView(SpacePreset spacePreset) {
         PresetLocationView view = new PresetLocationView(this, null);
         view.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        view.setPresetViewModel(presetViewModel);
+        view.setSpacePreset(spacePreset);
         view.setEventDelegate(new PresetLocationView.EventDelegate(){
             @Override
             public void onNewPosition() {
-                editSpaceView.onPresetChange(presetViewModel);
+                editSpaceView.onPresetChange(spacePreset);
             }
             @Override
             public void onOpenEdit() {
-                openEditDialog(presetViewModel);
+                openEditDialog(spacePreset);
             }
         });
         return view;
     }
 
-    public void openEditDialog(PresetViewModel presetViewModel) {
+    public void openEditDialog(SpacePreset spacePreset) {
         PresetEditDialogView presetEditDialogView = new PresetEditDialogView(this);
-        presetEditDialogView.setPresetViewModel(presetViewModel);
+        presetEditDialogView.setPresetViewModel(spacePreset);
 
         new AlertDialog.Builder(this)
                 .setView(presetEditDialogView)
@@ -105,12 +89,12 @@ public class SpaceActivity extends BaseActivity implements SpacePresenter.View {
                     int green = presetEditDialogView.getGreen();
                     int blue = presetEditDialogView.getBlue();
 
-                    presetViewModel.setStandardDeviation(std);
-                    presetViewModel.setAmplitude(amplitude);
-                    presetViewModel.setR(red);
-                    presetViewModel.setG(green);
-                    presetViewModel.setB(blue);
-                    editSpaceView.onPresetChange(presetViewModel);
+                    spacePreset.setStandardDeviation(std);
+                    spacePreset.setAmplitude(amplitude);
+                    spacePreset.setR(red);
+                    spacePreset.setG(green);
+                    spacePreset.setB(blue);
+                    editSpaceView.onPresetChange(spacePreset);
                 })
                 .create()
                 .show();

@@ -1,12 +1,15 @@
 package etc.a0la0.osccontroller.app.ui.parameterspace;
 
 import android.content.Context;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import etc.a0la0.osccontroller.app.data.Model;
 import etc.a0la0.osccontroller.app.data.ModelProvider;
 import etc.a0la0.osccontroller.app.data.entities.Preset;
+import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 import etc.a0la0.osccontroller.app.ui.base.BasePresenter;
 import etc.a0la0.osccontroller.app.ui.base.BaseView;
 
@@ -24,6 +27,41 @@ public class SpacePresenter extends BasePresenter<SpacePresenter.View>{
 
     public List<Preset> getPresetList() {
         return dataModel.getOptionList().get(position).getPresetList();
+    }
+
+    public List<SpacePreset> getSpacePresetList() {
+        List<SpacePreset> presetList = dataModel.getOptionList().get(position).getSpacePresetList();
+        if (presetList == null) {
+            presetList = createSpacePresetList(
+                    dataModel.getOptionList().get(position).getPresetList().size()
+            );
+            dataModel.getOptionList().get(position).setSpacePresetList(presetList);
+        }
+        return presetList;
+    }
+
+    public void persistState() {
+        for(SpacePreset spacePreset : getSpacePresetList()) {
+            spacePreset.setPixelValue(null);
+            spacePreset.setMatrix(null);
+        }
+        dataModel.persist();
+    }
+
+    private List<SpacePreset> createSpacePresetList(int size) {
+        Log.i("-----", "creating space preset list");
+        List<SpacePreset> spacePresetList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            spacePresetList.add(new SpacePreset(
+                    (int) (500 * Math.random()),
+                    (int) (500 * Math.random()),
+                    500, 500,
+                    (int) (255 * Math.random()),
+                    (int) (255 * Math.random()),
+                    (int) (255 * Math.random())
+            ));
+        }
+        return spacePresetList;
     }
 
 }

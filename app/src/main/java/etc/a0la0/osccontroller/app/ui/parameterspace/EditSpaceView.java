@@ -13,7 +13,7 @@ import com.annimon.stream.Stream;
 import java.util.List;
 
 import etc.a0la0.osccontroller.app.data.entities.Preset;
-import etc.a0la0.osccontroller.app.ui.parameterspace.entities.PresetViewModel;
+import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 
 public class EditSpaceView extends View {
 
@@ -22,16 +22,16 @@ public class EditSpaceView extends View {
     private Bitmap bitmap;
     private Canvas canvas;
     private List<Preset> presetList;
-    private List<PresetViewModel> viewModelList;
+    private List<SpacePreset> spacePresetList;
 
     public EditSpaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public void init(int optionIndex, List<Preset> presetList, List<PresetViewModel> viewModelList) {
+    public void init(int optionIndex, List<Preset> presetList, List<SpacePreset> spacePresetList) {
         //this.optionIndex = optionIndex;
         this.presetList = presetList;
-        this.viewModelList = viewModelList;
+        this.spacePresetList = spacePresetList;
     }
 
     @Override
@@ -43,15 +43,15 @@ public class EditSpaceView extends View {
         long start = System.currentTimeMillis();
         Log.i("matrices", "start ");
 
-        Stream.of(viewModelList)
-                .forEach(viewModel -> {
-                    viewModel.setWidth(width);
-                    viewModel.setHeight(height);
+        Stream.of(spacePresetList)
+                .forEach(spacePreset -> {
+                    spacePreset.setWidth(width);
+                    spacePreset.setHeight(height);
                 });
 
-        List<KernelCalculatorHelper> threadList = Stream.of(viewModelList)
-                .map(presetViewModel -> {
-                    KernelCalculatorHelper thread = new KernelCalculatorHelper(presetViewModel);
+        List<KernelCalculatorHelper> threadList = Stream.of(spacePresetList)
+                .map(spacePreset -> {
+                    KernelCalculatorHelper thread = new KernelCalculatorHelper(spacePreset);
                     thread.start();
                     return thread;
                 })
@@ -73,10 +73,10 @@ public class EditSpaceView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawValueMatrix(canvas, viewModelList);
+        drawValueMatrix(canvas, spacePresetList);
     }
 
-    public void onPresetChange(PresetViewModel vm) {
+    public void onPresetChange(SpacePreset vm) {
         KernelCalculatorHelper thread = new KernelCalculatorHelper(vm);
         thread.start();
         try {
@@ -89,7 +89,7 @@ public class EditSpaceView extends View {
         invalidate();
     }
 
-    private void drawValueMatrix(Canvas canvas, List<PresetViewModel> viewModelList) {
+    private void drawValueMatrix(Canvas canvas, List<SpacePreset> viewModelList) {
         long start = System.currentTimeMillis();
         int bufferSize = width * height;
 

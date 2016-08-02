@@ -1,6 +1,6 @@
-package etc.a0la0.osccontroller.app.ui.parameterspace.entities;
+package etc.a0la0.osccontroller.app.data.entities;
 
-public class PresetViewModel {
+public class SpacePreset {
 
     private int centerX;
     private int centerY;
@@ -14,7 +14,7 @@ public class PresetViewModel {
     private float[] matrix;
     private int[] pixelValue;
 
-    public PresetViewModel(int centerX, int centerY, int width, int height, int r, int g, int b) {
+    public SpacePreset(int centerX, int centerY, int width, int height, int r, int g, int b) {
         this.centerX = centerX;
         this.centerY = centerY;
         this.width = width;
@@ -38,14 +38,6 @@ public class PresetViewModel {
 
     public void setCenterY(int centerY) {
         this.centerY = centerY;
-    }
-
-    public float getValue(int x, int y) {
-        return matrix[x + y * width];
-    }
-
-    public int getPixelValue(int index) {
-        return pixelValue[index];
     }
 
     public int getWidth() {
@@ -112,10 +104,8 @@ public class PresetViewModel {
         this.pixelValue = pixelValue;
     }
 
-    public int[] getPixelValueArray(int startIndex, int length) {
-        int[] copiedValues = new int[length];
-        System.arraycopy(pixelValue, startIndex, copiedValues, 0, length);
-        return copiedValues;
+    public int[] getPixelValueArray() {
+        return pixelValue;
     }
 
 }
