@@ -12,7 +12,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import etc.a0la0.osccontroller.R;
-import etc.a0la0.osccontroller.app.data.entities.Preset;
 import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 import etc.a0la0.osccontroller.app.ui.base.BaseActivity;
 
@@ -41,11 +40,11 @@ public class SpaceActivity extends BaseActivity implements SpacePresenter.View {
         int position = intent.getIntExtra(getString(R.string.option_id), 0);
         presenter.init(this, position);
 
-        List<Preset> presetList = presenter.getPresetList();
         List<SpacePreset> spacePresetList = presenter.getSpacePresetList();
 
-        editSpaceView.init(position, presetList, spacePresetList);
-        for (SpacePreset spacePreset : spacePresetList) {
+        editSpaceView.init(position, spacePresetList);
+        for (int i = 1; i < spacePresetList.size(); i++) {
+            SpacePreset spacePreset = spacePresetList.get(i);
             iconContainer.addView(createPresetLocationView(spacePreset));
         }
     }

@@ -55,11 +55,18 @@
                 android:text="@string/setup" />
 
             <TextView
-                android:id="@+id/optionParamSpace"
+                android:id="@+id/optionParamSpaceEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/optionSetup"
-                android:text="@string/parameter_space" />
+                android:text="@string/edit_parameter_space" />
+
+            <TextView
+                android:id="@+id/optionParamSpacePlay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/optionParamSpaceEdit"
+                android:text="@string/play_parameter_space" />
 
             <ImageView
                 android:id="@+id/optionDelete"
@@ -70,7 +77,6 @@
                 android:src="@drawable/ic_clear_black_24dp"/>
 
         </RelativeLayout>
-
 
     </LinearLayout>
 

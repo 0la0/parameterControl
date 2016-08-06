@@ -56,6 +56,11 @@ public class SpacePreset {
         this.height = height;
     }
 
+    public void setDimensions(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
     public float getStandardDeviation() {
         return standardDeviation;
     }
@@ -94,6 +99,11 @@ public class SpacePreset {
 
     public void setB(int b) {
         this.b = b;
+    }
+
+    public float getValue(int x, int y) {
+        int index = x + y * width;
+        return matrix[index];
     }
 
     public void setMatrix(float[] matrix) {

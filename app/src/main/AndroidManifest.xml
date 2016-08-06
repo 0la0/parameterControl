@@ -33,7 +33,12 @@
 
         <activity
             android:name=".app.ui.parameterspace.SpaceActivity"
-            android:label="@string/parameter_space"
+            android:label="@string/edit_parameter_space"
+            android:parentActivityName=".app.ui.home.MainActivity" />
+
+        <activity
+            android:name=".app.ui.parameterspaceplay.SpacePlayActivity"
+            android:label="@string/play_parameter_space"
             android:parentActivityName=".app.ui.home.MainActivity" />
 
     </application>

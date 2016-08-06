@@ -12,7 +12,6 @@ import com.annimon.stream.Stream;
 
 import java.util.List;
 
-import etc.a0la0.osccontroller.app.data.entities.Preset;
 import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 
 public class EditSpaceView extends View {
@@ -21,16 +20,13 @@ public class EditSpaceView extends View {
     private int height;
     private Bitmap bitmap;
     private Canvas canvas;
-    private List<Preset> presetList;
     private List<SpacePreset> spacePresetList;
 
     public EditSpaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public void init(int optionIndex, List<Preset> presetList, List<SpacePreset> spacePresetList) {
-        //this.optionIndex = optionIndex;
-        this.presetList = presetList;
+    public void init(int optionIndex, List<SpacePreset> spacePresetList) {
         this.spacePresetList = spacePresetList;
     }
 
@@ -44,10 +40,7 @@ public class EditSpaceView extends View {
         Log.i("matrices", "start ");
 
         Stream.of(spacePresetList)
-                .forEach(spacePreset -> {
-                    spacePreset.setWidth(width);
-                    spacePreset.setHeight(height);
-                });
+                .forEach(spacePreset -> spacePreset.setDimensions(width, height));
 
         List<KernelCalculatorHelper> threadList = Stream.of(spacePresetList)
                 .map(spacePreset -> {

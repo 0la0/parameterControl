@@ -24,7 +24,8 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         void onEditClick(int position);
         void onSetupClick(int position);
         void onRemoveClick(int position);
-        void onParamSpaceClick(int position);
+        void onParamSpaceEditClick(int position);
+        void onParamSpacePlayClick(int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -32,7 +33,8 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         @BindView(R.id.optionName) TextView name;
         @BindView(R.id.optionEdit) TextView optionEdit;
         @BindView(R.id.optionSetup) TextView optionSetup;
-        @BindView(R.id.optionParamSpace) TextView optionParamSpace;
+        @BindView(R.id.optionParamSpaceEdit) TextView optionParamSpaceEdit;
+        @BindView(R.id.optionParamSpacePlay) TextView optionParamSpacePlay;
         @BindView(R.id.optionDelete) ImageView optionDelete;
         @BindView(R.id.optionCardToggle) ImageView cardToggle;
         @BindView(R.id.optionCardHeader) RelativeLayout header;
@@ -74,7 +76,8 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         viewHolder.optionDelete.setOnClickListener(view -> clickDelegates.onRemoveClick(position));
         viewHolder.optionEdit.setOnClickListener(view -> clickDelegates.onEditClick(position));
         viewHolder.optionSetup.setOnClickListener(view -> clickDelegates.onSetupClick(position));
-        viewHolder.optionParamSpace.setOnClickListener(view -> clickDelegates.onParamSpaceClick(position));
+        viewHolder.optionParamSpaceEdit.setOnClickListener(view -> clickDelegates.onParamSpaceEditClick(position));
+        viewHolder.optionParamSpacePlay.setOnClickListener(view -> clickDelegates.onParamSpacePlayClick(position));
     }
 
     @Override

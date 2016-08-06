@@ -1,7 +1,6 @@
 #include <jni.h>
 #include <math.h>
 
-
 float calculateGaussianKernel(int x, int y, int centerX, int centerY, float xSpread, float ySpread, float amplitude) {
    double xTerm = pow(x - centerX, 2) / (2 * pow(xSpread, 2));
    double yTerm = pow(y - centerY, 2) / (2 * pow(ySpread, 2));
@@ -26,6 +25,7 @@ void Java_etc_a0la0_osccontroller_anative_NativeHelper_calcMatricies(
       float value = calculateGaussianKernel(
               (i % width), (i / width),
               centerX, centerY, std, std, amplitude);
+      if (value < 0.01) value = 0;
 
       int red = (int) (r * value);
       int green = (int) (g * value);
@@ -37,7 +37,6 @@ void Java_etc_a0la0_osccontroller_anative_NativeHelper_calcMatricies(
       else if (green > 255) green = 255;
       if (blue < 0) blue = 0;
       else if (blue > 255) blue = 255;
-
 
       red = (red << 16) & 0x00FF0000;
       green = (green << 8) & 0x0000FF00;
@@ -51,7 +50,6 @@ void Java_etc_a0la0_osccontroller_anative_NativeHelper_calcMatricies(
 
    (*env)->ReleaseFloatArrayElements(env, valueArray, mutableValueArray, 0);
    (*env)->ReleaseIntArrayElements(env, pixelArray, mutablePixelArray, 0);
-
 }
 
 /**
@@ -101,7 +99,6 @@ void Java_etc_a0la0_osccontroller_anative_NativeHelper_aggregateMatrices(
       int color =  0xFF000000 | r | g | b;
       mutablePixelBuffer[i] = color;
    }
-
 
    (*env)->ReleaseIntArrayElements(env, pixelBuffer, mutablePixelBuffer, 0);
    (*env)->ReleaseIntArrayElements(env, pixelValueArray, mutablePixelValueArray, 0);
