@@ -1,4 +1,4 @@
-package etc.a0la0.osccontroller.app.ui.parameterspace;
+package etc.a0la0.osccontroller.app.ui.parameterspace.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,6 +13,8 @@ import com.annimon.stream.Stream;
 import java.util.List;
 
 import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
+import etc.a0la0.osccontroller.app.ui.parameterspace.util.KernelCalculatorHelper;
+import etc.a0la0.osccontroller.app.ui.parameterspace.util.MatrixAggregatorHelper;
 
 public class EditSpaceView extends View {
 
@@ -21,6 +23,11 @@ public class EditSpaceView extends View {
     private Bitmap bitmap;
     private Canvas canvas;
     private List<SpacePreset> spacePresetList;
+    private EventDelegate eventDelegate;
+
+    public interface EventDelegate {
+        void onSizeChanged(int width, int height);
+    }
 
     public EditSpaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,6 +42,9 @@ public class EditSpaceView extends View {
         super.onSizeChanged(width, height, previousWidth, previousHeight);
         this.width = width;
         this.height = height;
+        if (eventDelegate != null) {
+            eventDelegate.onSizeChanged(width, height);
+        }
 
         long start = System.currentTimeMillis();
         Log.i("matrices", "start ");
@@ -118,5 +128,8 @@ public class EditSpaceView extends View {
         Log.i("drawDataToCanvas", (System.currentTimeMillis() - start) + "");
     }
 
+    public void setEventDelegate(EventDelegate eventDelegate) {
+        this.eventDelegate = eventDelegate;
+    }
 
 }

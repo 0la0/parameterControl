@@ -32,13 +32,18 @@
             android:parentActivityName=".app.ui.home.MainActivity" />
 
         <activity
-            android:name=".app.ui.parameterspace.SpaceActivity"
+            android:name=".app.ui.parameterspace.editspace.EditSpaceActivity"
             android:label="@string/edit_parameter_space"
             android:parentActivityName=".app.ui.home.MainActivity" />
 
         <activity
-            android:name=".app.ui.parameterspaceplay.SpacePlayActivity"
+            android:name=".app.ui.parameterspace.playspace.PlaySpaceActivity"
             android:label="@string/play_parameter_space"
+            android:parentActivityName=".app.ui.home.MainActivity" />
+
+        <activity
+            android:name=".app.ui.parameterspace.tiltspace.TiltSpaceActivity"
+            android:label="@string/tilt_parameter_space"
             android:parentActivityName=".app.ui.home.MainActivity" />
 
     </application>

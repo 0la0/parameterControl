@@ -1,4 +1,4 @@
-package etc.a0la0.osccontroller.app.ui.parameterspace;
+package etc.a0la0.osccontroller.app.ui.parameterspace.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -27,7 +27,7 @@ public class PresetLocationView extends FrameLayout {
     private SpacePreset spacePreset;
     private EventDelegate eventDelegate;
 
-    interface EventDelegate {
+    public interface EventDelegate {
         void onNewPosition();
         void onOpenEdit();
     }

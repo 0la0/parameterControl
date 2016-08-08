@@ -1,16 +1,15 @@
-package etc.a0la0.osccontroller.app.ui.parameterspaceplay;
+package etc.a0la0.osccontroller.app.ui.parameterspace.tiltspace;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-import com.illposed.osc.OSCMessage;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -20,22 +19,30 @@ import etc.a0la0.osccontroller.app.data.entities.Parameter;
 import etc.a0la0.osccontroller.app.data.entities.Preset;
 import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 import etc.a0la0.osccontroller.app.ui.base.BaseActivity;
-import etc.a0la0.osccontroller.app.ui.parameterspace.EditSpaceView;
+import etc.a0la0.osccontroller.app.ui.parameterspace.views.EditSpaceView;
+import etc.a0la0.osccontroller.app.ui.util.AccelerometerProvider;
 
-public class SpacePlayActivity extends BaseActivity implements SpacePlayPresenter.View {
+public class TiltSpaceActivity extends BaseActivity implements TiltSpacePresenter.View {
 
     @BindView(R.id.editSpaceView) EditSpaceView editSpaceView;
+    @BindView(R.id.iconContainer) RelativeLayout iconContainer;
+    @BindView(R.id.tiltIcon) ImageView tiltIcon;
 
-    private SpacePlayPresenter presenter = new SpacePlayPresenter();
+    private int ICON_HALF_SIZE;
+    private TiltSpacePresenter presenter = new TiltSpacePresenter();
     private List<Preset> presetValueList;
     private List<SpacePreset> spacePresetList;
     private List<Parameter> parameterList;
-
+    private int width = 0;
+    private int height = 0;
+    private int iconPositionX = 0;
+    private int iconPositionY = 0;
+    private AccelerometerProvider accelerometerProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.space_play_activity);
+        setContentView(R.layout.space_tilt_activity);
     }
 
     @Override
@@ -49,23 +56,30 @@ public class SpacePlayActivity extends BaseActivity implements SpacePlayPresente
         int position = intent.getIntExtra(getString(R.string.option_id), 0);
         presenter.init(this, position);
 
+        ICON_HALF_SIZE = (int) getResources().getDimension(R.dimen.space_preset_icon_half_size);
+
         presetValueList = presenter.getPresetList();
         spacePresetList = presenter.getSpacePresetList();
         parameterList = presenter.getParameterList();
 
         editSpaceView.init(position, spacePresetList);
+        editSpaceView.setEventDelegate((int width, int height) -> {
+            presenter.setDimensions(width, height);
+            Log.i("dimensions", width + ", " + height);
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.startOscThread();
+        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        presenter.onResume(sensorManager);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        presenter.stopOscThread();
+        presenter.onPause();
     }
 
     @Override
@@ -84,37 +98,17 @@ public class SpacePlayActivity extends BaseActivity implements SpacePlayPresente
         if (eventAction != MotionEvent.ACTION_DOWN && eventAction != MotionEvent.ACTION_MOVE) {
             return true;
         }
-
-        List<Float> weightList = Stream.of(spacePresetList)
-                .map(spacePreset -> Math.min(1f, spacePreset.getValue(x, y))) //maybe cap at 1 another place?
-                .collect(Collectors.toList());
-
-        float weightSum = Stream.of(weightList)
-                .map(weight -> weight)
-                .reduce(0.0f, (sum, weight) -> sum + weight);
-
-        float baseWeight = 1 - (Math.min(1, weightSum));
-        weightList.set(0, baseWeight);
-        float totalWeightSum = weightSum + baseWeight;
-
-        List<OSCMessage> messageList = new ArrayList<>();
-
-        for (Parameter parameter : parameterList) {
-            String parameterKey = parameter.getUniqueId();
-            String address = parameter.getAddress();
-            float presetValue = 0;
-            for (int i = 0; i < weightList.size(); i++) {
-                Preset preset = presetValueList.get(i);
-                float weight = weightList.get(i);
-                presetValue += preset.get(parameterKey) * weight;
-            }
-            presetValue /= totalWeightSum;
-
-            messageList.add(new OSCMessage(address, Collections.singletonList(presetValue)));
-        }
-
-        presenter.sendOscMessage(messageList);
+        Log.i("Touch", x + ", " + y);
+        presenter.setIconPosition(x, y);
         return true;
+    }
+
+    @Override
+    public void setIconPosition(int x, int y) {
+        //TODO: calculate preset values and send OSC bundle
+
+        tiltIcon.setX(x - ICON_HALF_SIZE);
+        tiltIcon.setY(y - ICON_HALF_SIZE);
     }
 
 }

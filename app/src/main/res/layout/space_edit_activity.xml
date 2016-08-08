@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <etc.a0la0.osccontroller.app.ui.parameterspace.EditSpaceView
+    <etc.a0la0.osccontroller.app.ui.parameterspace.views.EditSpaceView
         android:id="@+id/editSpaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

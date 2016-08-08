@@ -1,4 +1,4 @@
-package etc.a0la0.osccontroller.app.ui.parameterspace;
+package etc.a0la0.osccontroller.app.ui.parameterspace.editspace;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,7 +12,7 @@ import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 import etc.a0la0.osccontroller.app.ui.base.BasePresenter;
 import etc.a0la0.osccontroller.app.ui.base.BaseView;
 
-public class SpacePresenter extends BasePresenter<SpacePresenter.View>{
+public class EditSpacePresenter extends BasePresenter<EditSpacePresenter.View>{
 
     private int position;
     private Model dataModel;

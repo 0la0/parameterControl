@@ -18,7 +18,7 @@ import etc.a0la0.osccontroller.R;
 public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleListAdapter.ViewHolder> {
 
     private List<String> optionTitleList;
-    private ClickDelegates clickDelegates;
+    private ClickDelegates clickDelegate;
 
     public interface ClickDelegates {
         void onEditClick(int position);
@@ -26,6 +26,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         void onRemoveClick(int position);
         void onParamSpaceEditClick(int position);
         void onParamSpacePlayClick(int position);
+        void onParamSpaceTiltClick(int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -35,6 +36,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         @BindView(R.id.optionSetup) TextView optionSetup;
         @BindView(R.id.optionParamSpaceEdit) TextView optionParamSpaceEdit;
         @BindView(R.id.optionParamSpacePlay) TextView optionParamSpacePlay;
+        @BindView(R.id.optionParamSpaceTilt) TextView optionParamSpaceTilt;
         @BindView(R.id.optionDelete) ImageView optionDelete;
         @BindView(R.id.optionCardToggle) ImageView cardToggle;
         @BindView(R.id.optionCardHeader) RelativeLayout header;
@@ -46,9 +48,9 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         }
     }
 
-    public OptionTitleListAdapter(List<String> optionTitleList, ClickDelegates clickDelegates) {
+    public OptionTitleListAdapter(List<String> optionTitleList, ClickDelegates clickDelegate) {
         this.optionTitleList = optionTitleList;
-        this.clickDelegates = clickDelegates;
+        this.clickDelegate = clickDelegate;
     }
 
     @Override
@@ -73,11 +75,12 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
             }
         });
 
-        viewHolder.optionDelete.setOnClickListener(view -> clickDelegates.onRemoveClick(position));
-        viewHolder.optionEdit.setOnClickListener(view -> clickDelegates.onEditClick(position));
-        viewHolder.optionSetup.setOnClickListener(view -> clickDelegates.onSetupClick(position));
-        viewHolder.optionParamSpaceEdit.setOnClickListener(view -> clickDelegates.onParamSpaceEditClick(position));
-        viewHolder.optionParamSpacePlay.setOnClickListener(view -> clickDelegates.onParamSpacePlayClick(position));
+        viewHolder.optionDelete.setOnClickListener(view -> clickDelegate.onRemoveClick(position));
+        viewHolder.optionEdit.setOnClickListener(view -> clickDelegate.onEditClick(position));
+        viewHolder.optionSetup.setOnClickListener(view -> clickDelegate.onSetupClick(position));
+        viewHolder.optionParamSpaceEdit.setOnClickListener(view -> clickDelegate.onParamSpaceEditClick(position));
+        viewHolder.optionParamSpacePlay.setOnClickListener(view -> clickDelegate.onParamSpacePlayClick(position));
+        viewHolder.optionParamSpaceTilt.setOnClickListener(view -> clickDelegate.onParamSpaceTiltClick(position));
     }
 
     @Override

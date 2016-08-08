@@ -14,8 +14,9 @@ import butterknife.OnClick;
 import etc.a0la0.osccontroller.R;
 import etc.a0la0.osccontroller.app.ui.base.BaseActivity;
 import etc.a0la0.osccontroller.app.ui.edit.EditActivity;
-import etc.a0la0.osccontroller.app.ui.parameterspace.SpaceActivity;
-import etc.a0la0.osccontroller.app.ui.parameterspaceplay.SpacePlayActivity;
+import etc.a0la0.osccontroller.app.ui.parameterspace.editspace.EditSpaceActivity;
+import etc.a0la0.osccontroller.app.ui.parameterspace.playspace.PlaySpaceActivity;
+import etc.a0la0.osccontroller.app.ui.parameterspace.tiltspace.TiltSpaceActivity;
 import etc.a0la0.osccontroller.app.ui.setup.SetupActivity;
 
 public class MainActivity extends BaseActivity implements MainPresenter.MainActivityView{
@@ -100,12 +101,17 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainActi
 
         @Override
         public void onParamSpaceEditClick(int position) {
-            startActivity(position, SpaceActivity.class);
+            startActivity(position, EditSpaceActivity.class);
         }
 
         @Override
         public void onParamSpacePlayClick(int position) {
-            startActivity(position, SpacePlayActivity.class);
+            startActivity(position, PlaySpaceActivity.class);
+        }
+
+        @Override
+        public void onParamSpaceTiltClick(int position) {
+            startActivity(position, TiltSpaceActivity.class);
         }
 
     }

@@ -3,6 +3,7 @@ package etc.a0la0.osccontroller.app.ui.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -16,6 +17,8 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     protected void onPostCreate(Bundle savedInstanceState) {
         ButterKnife.bind(this);
         super.onPostCreate(savedInstanceState);
+        //force portrait orientation
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
     }
 
     @Override

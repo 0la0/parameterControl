@@ -1,4 +1,4 @@
-package etc.a0la0.osccontroller.app.ui.parameterspace;
+package etc.a0la0.osccontroller.app.ui.parameterspace.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;

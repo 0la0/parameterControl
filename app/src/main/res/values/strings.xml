@@ -24,6 +24,7 @@
     <!-- Parameter Space Activity -->
     <string name="play_parameter_space">Play Parameter Space</string>
     <string name="edit_parameter_space">Edit Parameter Space</string>
+    <string name="tilt_parameter_space">Tilt Parameter Space</string>
     <string name="standard_deviation">Standard Deviation</string>
     <string name="amplitude">Amplitude</string>
     <string name="color">Color</string>

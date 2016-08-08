@@ -1,4 +1,4 @@
-package etc.a0la0.osccontroller.app.ui.parameterspace;
+package etc.a0la0.osccontroller.app.ui.parameterspace.editspace;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,19 +14,23 @@ import butterknife.BindView;
 import etc.a0la0.osccontroller.R;
 import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 import etc.a0la0.osccontroller.app.ui.base.BaseActivity;
+import etc.a0la0.osccontroller.app.ui.parameterspace.views.EditSpaceView;
+import etc.a0la0.osccontroller.app.ui.parameterspace.views.PresetEditDialogView;
+import etc.a0la0.osccontroller.app.ui.parameterspace.views.PresetLocationView;
 
-public class SpaceActivity extends BaseActivity implements SpacePresenter.View {
+public class EditSpaceActivity extends BaseActivity implements EditSpacePresenter.View {
 
-    @BindView(R.id.editSpaceView) EditSpaceView editSpaceView;
+    @BindView(R.id.editSpaceView)
+    EditSpaceView editSpaceView;
     @BindView(R.id.iconContainer) RelativeLayout iconContainer;
 
-    private SpacePresenter presenter = new SpacePresenter();
+    private EditSpacePresenter presenter = new EditSpacePresenter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //getSupportActionBar().hide();
-        setContentView(R.layout.space_activity);
+        setContentView(R.layout.space_edit_activity);
     }
 
     @Override

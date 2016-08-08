@@ -1,12 +1,11 @@
 package etc.a0la0.osccontroller.app.osc;
 
-import com.illposed.osc.OSCMessage;
+import com.illposed.osc.OSCPacket;
 import com.illposed.osc.OSCPortOut;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -19,7 +18,7 @@ public class OscClient {
     private int port;
     private OSCPortOut oscPortOut;
     private Thread oscWorker;
-    private final BlockingQueue<OSCMessage> oscMessageQueue = new LinkedBlockingQueue<OSCMessage>();
+    private final BlockingQueue<OSCPacket> oscPacketQueue = new LinkedBlockingQueue<OSCPacket>();
 
     public OscClient(String oscServerAddress, int port) {
         this.oscServerAddress = oscServerAddress;
@@ -49,8 +48,8 @@ public class OscClient {
 
                 while (!Thread.currentThread().isInterrupted()) {
                     try {
-                        if (!oscMessageQueue.isEmpty()) {
-                            OSCMessage message = oscMessageQueue.take();
+                        if (!oscPacketQueue.isEmpty()) {
+                            OSCPacket message = oscPacketQueue.take();
                             //Log.i("send message", message.getAddress() + ", " + (float) message.getArguments().get(0));
                             try {
                                 oscPortOut.send(message);
@@ -70,13 +69,8 @@ public class OscClient {
         };
     }
 
-
-    public void send (OSCMessage message) {
-        this.oscMessageQueue.add(message);
-    }
-
-    public void send (List<OSCMessage> messageList) {
-        this.oscMessageQueue.addAll(messageList);
+    public void send(OSCPacket oscPacket) {
+        oscPacketQueue.add(oscPacket);
     }
 
 }

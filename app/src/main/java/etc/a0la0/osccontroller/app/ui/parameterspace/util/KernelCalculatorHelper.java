@@ -1,4 +1,4 @@
-package etc.a0la0.osccontroller.app.ui.parameterspace;
+package etc.a0la0.osccontroller.app.ui.parameterspace.util;
 
 import etc.a0la0.osccontroller.anative.NativeHelper;
 import etc.a0la0.osccontroller.app.data.entities.SpacePreset;

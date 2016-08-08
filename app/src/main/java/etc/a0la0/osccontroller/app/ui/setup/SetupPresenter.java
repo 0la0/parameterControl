@@ -2,7 +2,7 @@ package etc.a0la0.osccontroller.app.ui.setup;
 
 import android.content.Context;
 
-import com.illposed.osc.OSCMessage;
+import com.illposed.osc.OSCPacket;
 
 import java.util.List;
 
@@ -65,12 +65,8 @@ public class SetupPresenter extends BasePresenter<SetupPresenter.View> {
         dataModel.persist();
     }
 
-    public void sendOscMessage(OSCMessage message) {
-        oscClient.send(message);
-    }
-
-    public void sendOscMessage(List<OSCMessage> messageList) {
-        oscClient.send(messageList);
+    public void sendOscMessage(OSCPacket oscPacket) {
+        oscClient.send(oscPacket);
     }
 
 }

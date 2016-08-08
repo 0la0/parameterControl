@@ -1,8 +1,8 @@
-package etc.a0la0.osccontroller.app.ui.parameterspaceplay;
+package etc.a0la0.osccontroller.app.ui.parameterspace.playspace;
 
 import android.content.Context;
 
-import com.illposed.osc.OSCMessage;
+import com.illposed.osc.OSCPacket;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import etc.a0la0.osccontroller.app.osc.OscClient;
 import etc.a0la0.osccontroller.app.ui.base.BasePresenter;
 import etc.a0la0.osccontroller.app.ui.base.BaseView;
 
-public class SpacePlayPresenter extends BasePresenter<SpacePlayPresenter.View> {
+public class PlaySpacePresenter extends BasePresenter<PlaySpacePresenter.View> {
 
     private int position;
     private Model dataModel;
@@ -56,8 +56,7 @@ public class SpacePlayPresenter extends BasePresenter<SpacePlayPresenter.View> {
         return presetList;
     }
 
-    public void sendOscMessage(List<OSCMessage> messageList) {
-        oscClient.send(messageList);
+    public void sendOscPacket(OSCPacket oscPacket) {
+        oscClient.send(oscPacket);
     }
-
 }

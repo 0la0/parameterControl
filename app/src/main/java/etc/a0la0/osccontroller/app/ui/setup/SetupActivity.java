@@ -6,7 +6,9 @@ import android.widget.LinearLayout;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.illposed.osc.OSCBundle;
 import com.illposed.osc.OSCMessage;
+import com.illposed.osc.OSCPacket;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -106,13 +108,15 @@ public class SetupActivity extends BaseActivity implements SetupPresenter.View{
             public void onClick() {
                 setParameters(preset);
 
-                List<OSCMessage> sliderValues = Stream.of(parameterSliderList)
+                List<OSCPacket> sliderValues = Stream.of(parameterSliderList)
                         .map(parameterSlider -> {
                             List<Object> oscData = Collections.singletonList(parameterSlider.getSliderValue() / MAX_VALUE);
                             return new OSCMessage(parameterSlider.getAddress(), oscData);
                         })
                         .collect(Collectors.toList());
-                presenter.sendOscMessage(sliderValues);
+
+                OSCPacket oscBundle = new OSCBundle(sliderValues);
+                presenter.sendOscMessage(oscBundle);
 
                 unSelectInactivePresets(presetIndex);
             }
