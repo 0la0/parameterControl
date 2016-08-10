@@ -42,10 +42,6 @@ public class EditSpaceView extends View {
         super.onSizeChanged(width, height, previousWidth, previousHeight);
         this.width = width;
         this.height = height;
-        if (eventDelegate != null) {
-            eventDelegate.onSizeChanged(width, height);
-        }
-
         long start = System.currentTimeMillis();
         Log.i("matrices", "start ");
 
@@ -66,6 +62,10 @@ public class EditSpaceView extends View {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+
+        if (eventDelegate != null) {
+            eventDelegate.onSizeChanged(width, height);
         }
 
         Log.i("matrices calculated", (System.currentTimeMillis() - start) + "");

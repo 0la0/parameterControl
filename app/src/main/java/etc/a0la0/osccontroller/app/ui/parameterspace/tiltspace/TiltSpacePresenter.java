@@ -2,6 +2,9 @@ package etc.a0la0.osccontroller.app.ui.parameterspace.tiltspace;
 
 import android.content.Context;
 import android.hardware.SensorManager;
+import android.util.Log;
+
+import com.illposed.osc.OSCPacket;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +19,7 @@ import etc.a0la0.osccontroller.app.osc.OscClient;
 import etc.a0la0.osccontroller.app.ui.base.BasePresenter;
 import etc.a0la0.osccontroller.app.ui.base.BaseView;
 import etc.a0la0.osccontroller.app.ui.util.AccelerometerProvider;
+import rx.Observable;
 
 public class TiltSpacePresenter extends BasePresenter<TiltSpacePresenter.View> {
 
@@ -28,10 +32,13 @@ public class TiltSpacePresenter extends BasePresenter<TiltSpacePresenter.View> {
     private int iconPositionX = 0;
     private int iconPositionY = 0;
     private long previousTime = System.nanoTime();
-    private float inverseTimeMultiplier = 5000000.0f;
+    private float accelerometerMultiplier = 1f;
+    private final float TIME_MULTIPLIER = 1 / 5000000.0f;
+    private final float MAX_VALUE = 100.0f;
 
     interface View extends BaseView {
         void setIconPosition(int x, int y);
+        Observable<Integer> getSliderObservable();
     }
 
     public void init(Context context, int position) {
@@ -42,27 +49,45 @@ public class TiltSpacePresenter extends BasePresenter<TiltSpacePresenter.View> {
         oscClient = new OscClient(option.getIpAddress(), option.getPort());
     }
 
+    public void observeSlider() {
+        subscriptions.add(view.getSliderObservable().subscribe(
+                progress -> {
+                    float sliderValue = progress / MAX_VALUE;
+                    accelerometerMultiplier = 0.045f + 3 * sliderValue;
+                },
+                error -> {
+                    Log.e("TiltSpaceSlider", error.toString());
+                }
+        ));
+    }
+
     public void onResume(SensorManager sensorManager) {
         accelerometerProvider = new AccelerometerProvider(sensorManager);
         oscClient.start();
 
         accelerometerProvider.getObservable()
                 .debounce(16, TimeUnit.MILLISECONDS)
-                .subscribe(accelerometerArray -> {
-                    long currentTime = System.nanoTime();
-                    long elapsedTime = currentTime - previousTime;
-                    previousTime = currentTime;
+                .subscribe(
+                    accelerometerArray -> onAccelerometerChange(accelerometerArray),
+                    error -> Log.i("AccelerometerError", error.toString())
+                );
+    }
 
-                    float timeMultiplier = elapsedTime / inverseTimeMultiplier;
-                    int dx = (int) (timeMultiplier * -accelerometerArray[0]);
-                    int dy = (int) (timeMultiplier *  accelerometerArray[1]);
-                    updateIconPosition(dx, dy);
-                });
+    private void onAccelerometerChange(float[] accelerometerArray) {
+        long currentTime = System.nanoTime();
+        long elapsedTime = currentTime - previousTime;
+        previousTime = currentTime;
+
+        float timeMultiplier = elapsedTime * TIME_MULTIPLIER * accelerometerMultiplier;
+        int dx = (int) (timeMultiplier * -accelerometerArray[0]);
+        int dy = (int) (timeMultiplier *  accelerometerArray[1]);
+        updateIconPosition(dx, dy);
     }
 
     public void onPause() {
         accelerometerProvider.unregister();
         oscClient.stop();
+        subscriptions.clear();
     }
 
     public List<Parameter> getParameterList() {
@@ -90,6 +115,9 @@ public class TiltSpacePresenter extends BasePresenter<TiltSpacePresenter.View> {
     }
 
     private void updateIconPosition(int dx, int dy) {
+        if (dx == 0 && dy == 0) {
+            return;
+        }
         iconPositionX += dx;
         iconPositionY += dy;
         setIconPosition(iconPositionX, iconPositionY);
@@ -101,8 +129,8 @@ public class TiltSpacePresenter extends BasePresenter<TiltSpacePresenter.View> {
         view.setIconPosition(iconPositionX, iconPositionY);
     }
 
-    public void setInverseTimeMultiplier(float inverseTimeMultiplier) {
-        this.inverseTimeMultiplier = inverseTimeMultiplier;
+    public void sendOscPacket(OSCPacket oscPacket) {
+        oscClient.send(oscPacket);
     }
 
 }

@@ -103,6 +103,7 @@ public class SpacePreset {
 
     public float getValue(int x, int y) {
         int index = x + y * width;
+        index = Math.max(0, Math.min(matrix.length - 1, index));
         return matrix[index];
     }
 

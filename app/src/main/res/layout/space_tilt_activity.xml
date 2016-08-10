@@ -24,4 +24,26 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/transparent_grey">
+
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/accelerometerSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:minHeight="40dp"
+            android:maxHeight="40dp"
+            android:progressDrawable="@drawable/seekbar_custom"
+            android:thumb="@drawable/seekbar_thumb"
+            android:background="@null"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:max="100" />
+
+    </LinearLayout>
+
 </RelativeLayout>
