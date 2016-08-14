@@ -46,6 +46,12 @@
             android:label="@string/tilt_parameter_space"
             android:parentActivityName=".app.ui.home.MainActivity" />
 
+        <activity
+            android:name=".app.ui.rotationspace.RotationSpaceActivity"
+            android:label="@string/rotation_space"
+            android:parentActivityName=".app.ui.home.MainActivity" />
+
+
     </application>
 
 </manifest>

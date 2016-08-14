@@ -2,6 +2,7 @@ package etc.a0la0.osccontroller.app.ui.home;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         void onParamSpaceEditClick(int position);
         void onParamSpacePlayClick(int position);
         void onParamSpaceTiltClick(int position);
+        void onRotationSpaceClick(int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -37,6 +39,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         @BindView(R.id.optionParamSpaceEdit) TextView optionParamSpaceEdit;
         @BindView(R.id.optionParamSpacePlay) TextView optionParamSpacePlay;
         @BindView(R.id.optionParamSpaceTilt) TextView optionParamSpaceTilt;
+        @BindView(R.id.optionRotationSpace) TextView optionRotationSpace;
         @BindView(R.id.optionDelete) ImageView optionDelete;
         @BindView(R.id.optionCardToggle) ImageView cardToggle;
         @BindView(R.id.optionCardHeader) RelativeLayout header;
@@ -65,6 +68,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         viewHolder.name.setText(optionTitleList.get(position));
 
         viewHolder.header.setOnClickListener((View view) -> {
+            Log.i("-----", "click");
             if (viewHolder.expandable.getVisibility() == View.GONE) {
                 viewHolder.expandable.setVisibility(View.VISIBLE);
                 viewHolder.cardToggle.setImageResource(R.drawable.ic_expand_less_black_24dp);
@@ -81,6 +85,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         viewHolder.optionParamSpaceEdit.setOnClickListener(view -> clickDelegate.onParamSpaceEditClick(position));
         viewHolder.optionParamSpacePlay.setOnClickListener(view -> clickDelegate.onParamSpacePlayClick(position));
         viewHolder.optionParamSpaceTilt.setOnClickListener(view -> clickDelegate.onParamSpaceTiltClick(position));
+        viewHolder.optionRotationSpace.setOnClickListener(view -> clickDelegate.onRotationSpaceClick(position));
     }
 
     @Override

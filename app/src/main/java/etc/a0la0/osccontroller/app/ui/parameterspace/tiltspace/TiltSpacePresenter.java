@@ -7,7 +7,6 @@ import android.util.Log;
 import com.illposed.osc.OSCPacket;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import etc.a0la0.osccontroller.app.data.Model;
 import etc.a0la0.osccontroller.app.data.ModelProvider;
@@ -66,7 +65,6 @@ public class TiltSpacePresenter extends BasePresenter<TiltSpacePresenter.View> {
         oscClient.start();
 
         accelerometerProvider.getObservable()
-                .debounce(16, TimeUnit.MILLISECONDS)
                 .subscribe(
                     accelerometerArray -> onAccelerometerChange(accelerometerArray),
                     error -> Log.i("AccelerometerError", error.toString())

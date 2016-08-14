@@ -17,6 +17,7 @@ import etc.a0la0.osccontroller.app.ui.edit.EditActivity;
 import etc.a0la0.osccontroller.app.ui.parameterspace.editspace.EditSpaceActivity;
 import etc.a0la0.osccontroller.app.ui.parameterspace.playspace.PlaySpaceActivity;
 import etc.a0la0.osccontroller.app.ui.parameterspace.tiltspace.TiltSpaceActivity;
+import etc.a0la0.osccontroller.app.ui.rotationspace.RotationSpaceActivity;
 import etc.a0la0.osccontroller.app.ui.setup.SetupActivity;
 
 public class MainActivity extends BaseActivity implements MainPresenter.MainActivityView{
@@ -112,6 +113,11 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainActi
         @Override
         public void onParamSpaceTiltClick(int position) {
             startActivity(position, TiltSpaceActivity.class);
+        }
+
+        @Override
+        public void onRotationSpaceClick(int position) {
+            startActivity(position, RotationSpaceActivity.class);
         }
 
     }

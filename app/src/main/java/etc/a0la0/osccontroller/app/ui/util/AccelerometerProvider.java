@@ -41,7 +41,7 @@ public class AccelerometerProvider {
                 };
 
                 Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-                sensorManager.registerListener(listener, accelerometer, SensorManager.SENSOR_DELAY_UI);
+                sensorManager.registerListener(listener, accelerometer, SensorManager.SENSOR_DELAY_GAME);
             }
         });
     }
