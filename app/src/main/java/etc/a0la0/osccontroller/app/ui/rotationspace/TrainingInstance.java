@@ -14,6 +14,20 @@ public class TrainingInstance {
         this.classification = classification;
     }
 
+    public TrainingInstance add(TrainingInstance trainingInstance) {
+        alpha += trainingInstance.alpha;
+        beta += trainingInstance.beta;
+        gamma += trainingInstance.gamma;
+        return this;
+    }
+
+    public TrainingInstance divide(float scalar) {
+        alpha /= scalar;
+        beta /= scalar;
+        gamma /= scalar;
+        return this;
+    }
+
     public String toString() {
         return alpha + ", " + beta + ", " + gamma;
     }

@@ -5,15 +5,9 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
+        android:id="@+id/tempContainer"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Interpolate"/>
-
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
 </etc.a0la0.osccontroller.app.ui.rotationspace.PagerInterpolateView>
