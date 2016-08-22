@@ -15,7 +15,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import etc.a0la0.osccontroller.R;
-import etc.a0la0.osccontroller.app.data.entities.Preset;
 import etc.a0la0.osccontroller.app.ui.base.BaseActivity;
 
 public class RotationSpaceActivity extends BaseActivity implements ViewPager.OnPageChangeListener, RotationSpacePresenter.View  {
@@ -24,14 +23,21 @@ public class RotationSpaceActivity extends BaseActivity implements ViewPager.OnP
     @BindView(R.id.viewPager) ViewPager viewPager;
 
     private RotationSpacePresenter presenter = new RotationSpacePresenter();
-    private List<Preset> presetList;
     private List<RotationViewPager> tabViewList;
     private List<TrainingInstance> trainingSet;
+    private MessageDelegate messageDelegate;
     private int selectedTabIndex = 0;
+    private int numberOfPresets;
 
     private final int TRAIN_VIEW = 0;
     private final int CLASSIFY_VIEW = 1;
     private final int INTERPOLATE_VIEW = 2;
+
+    interface MessageDelegate {
+        void setTrainingSet(List<TrainingInstance> trainingSet);
+        void onUpdateWeightList(List<Double> weightList);
+        void onUpdateWeightList(int classificationIndex);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +56,9 @@ public class RotationSpaceActivity extends BaseActivity implements ViewPager.OnP
         int position = intent.getIntExtra(getString(R.string.option_id), 0);
         presenter.init(this, position);
 
+        messageDelegate = new PageMessageDelegate();
+        numberOfPresets = presenter.getNumberOfPresets();
         initTabs();
-        presetList = presenter.getPresetList();
     }
 
     private void initTabs() {
@@ -99,41 +106,20 @@ public class RotationSpaceActivity extends BaseActivity implements ViewPager.OnP
 
         switch(position) {
             case TRAIN_VIEW:
-                tabViewList.get(CLASSIFY_VIEW).onUnselect();
-                tabViewList.get(INTERPOLATE_VIEW).onUnselect();
-                tabViewList.get(TRAIN_VIEW).onSelect();
-
-                tabViewList.get(TRAIN_VIEW).setPresetList(presetList);
-
-                ((RotationViewPager.TrainView) tabViewList.get(TRAIN_VIEW)).setMessageDelegate(new PagerTrainView.MessageDelegate(){
-                    @Override
-                    public void setTrainingSet(List<TrainingInstance> trainingData) {
-                        trainingSet = trainingData;
-                    }
-                });
-
+                tabViewList.get(TRAIN_VIEW).setMessageDelegate(messageDelegate);
+                ((RotationViewPager.TrainView) tabViewList.get(TRAIN_VIEW)).setNumberOfPresets(numberOfPresets);
                 break;
             case CLASSIFY_VIEW:
-                tabViewList.get(TRAIN_VIEW).onUnselect();
-                tabViewList.get(INTERPOLATE_VIEW).onUnselect();
-                tabViewList.get(CLASSIFY_VIEW).onSelect();
-
+                tabViewList.get(CLASSIFY_VIEW).setMessageDelegate(messageDelegate);
                 if (trainingSet != null) {
-                    ((RotationViewPager.ClassifyView) tabViewList.get(CLASSIFY_VIEW))
-                            .setTrainingSet(trainingSet);
+                    tabViewList.get(CLASSIFY_VIEW).setTrainingSet(trainingSet);
                 }
-
                 break;
             case INTERPOLATE_VIEW:
-                tabViewList.get(TRAIN_VIEW).onUnselect();
-                tabViewList.get(CLASSIFY_VIEW).onUnselect();
-                tabViewList.get(INTERPOLATE_VIEW).onSelect();
-
+                tabViewList.get(INTERPOLATE_VIEW).setMessageDelegate(messageDelegate);
                 if (trainingSet != null) {
-                    ((RotationViewPager.InterpolateView) tabViewList.get(INTERPOLATE_VIEW))
-                            .setTrainingSet(trainingSet);
+                    tabViewList.get(INTERPOLATE_VIEW).setTrainingSet(trainingSet);
                 }
-
                 break;
         }
 
@@ -176,7 +162,6 @@ public class RotationSpaceActivity extends BaseActivity implements ViewPager.OnP
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            viewList.get(position).onDestroy();
             container.removeView((View) object);
         }
 
@@ -186,6 +171,21 @@ public class RotationSpaceActivity extends BaseActivity implements ViewPager.OnP
             return getResources().getString(titleResource);
         }
 
+    }
+
+    private class PageMessageDelegate implements MessageDelegate {
+        @Override
+        public void setTrainingSet(List<TrainingInstance> trainingData) {
+            trainingSet = trainingData;
+        }
+        @Override
+        public void onUpdateWeightList(List<Double> weightList) {
+            presenter.onUpdateWeightList(weightList);
+        }
+        @Override
+        public void onUpdateWeightList(int classificationIndex) {
+            presenter.onUpdateWeightList(classificationIndex);
+        }
     }
 
 }

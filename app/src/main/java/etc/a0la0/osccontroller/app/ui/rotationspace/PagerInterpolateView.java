@@ -20,30 +20,27 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import etc.a0la0.osccontroller.R;
-import etc.a0la0.osccontroller.app.data.entities.Preset;
 
 public class PagerInterpolateView extends FrameLayout {
 
     @BindView(R.id.tempContainer)
     LinearLayout tempContainer;
     private List<TextView> textViewList;
+    private final float EPSILON_INVERSE_DISTANCE_THRESHOLD = 1F;
 
-    private List<Preset> presetList;
     private List<TrainingInstance> trainingData;
     private List<TrainingInstance> centroids;
+    private RotationSpaceActivity.MessageDelegate messageDelegate;
 
     public PagerInterpolateView(Context context) {
         super(context);
     }
-
     public PagerInterpolateView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
     public PagerInterpolateView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
     public static PagerInterpolateView inflate(ViewGroup group, boolean attachToRoot){
         return (PagerInterpolateView) LayoutInflater.from(group.getContext()).inflate(R.layout.rotation_interpolate, group, attachToRoot);
     }
@@ -54,30 +51,11 @@ public class PagerInterpolateView extends FrameLayout {
         if (isInEditMode()) {
             return;
         }
-        init();
-    }
-
-    private void init(){
         ButterKnife.bind(this);
-        Log.i("Interpolate", "init");
-        //presenter.attachView(this);
     }
 
-    public void onDestroy() {
-        Log.i("Interpolate", "onDestroy");
-        //presenter.detachView();
-    }
-
-    public void onSelect() {
-        Log.i("Interpolate", "onSelect");
-    }
-
-    public void onUnselect() {
-        Log.i("Interpolate", "onUnselect");
-    }
-
-    public void setPresetList(List<Preset> presetList) {
-        this.presetList = presetList;
+    public void setMessageDelegate(RotationSpaceActivity.MessageDelegate messageDelegate) {
+        this.messageDelegate = messageDelegate;
     }
 
     public void onAccelerometerChange(float[] accelerometerData) {
@@ -98,6 +76,8 @@ public class PagerInterpolateView extends FrameLayout {
                 .map(centroid -> calculateInverseDistance(centroid, instance, 2))
                 .collect(Collectors.toList());
 
+        inverseDistances = getNormalizedList(inverseDistances);
+
         double distanceSum = Stream.of(inverseDistances)
                 .reduce(0.0, (sum, inverseDistance) -> sum += inverseDistance);
 
@@ -106,6 +86,11 @@ public class PagerInterpolateView extends FrameLayout {
                 .map(inverseDistance -> inverseDistance / distanceSum)
                 .collect(Collectors.toList());
 
+        if (messageDelegate != null) {
+            messageDelegate.onUpdateWeightList(normalizedWeights);
+        }
+
+        //print weights to view
         for (int i = 0; i < normalizedWeights.size(); i++) {
             TextView textView = textViewList.get(i);
             double weight = normalizedWeights.get(i);
@@ -136,13 +121,12 @@ public class PagerInterpolateView extends FrameLayout {
             centroids.add(centroid);
         }
 
-        createTempView();
+        buildView();
     }
 
-    private void createTempView() {
+    private void buildView() {
         tempContainer.removeAllViews();
         textViewList = new ArrayList<>();
-
         for (TrainingInstance centroid : centroids) {
             TextView textView = new TextView(getContext());
             textView.setText("");
@@ -158,6 +142,25 @@ public class PagerInterpolateView extends FrameLayout {
                 Math.pow(u.gamma - v.gamma, 2)
         );
         return 1 / Math.pow(distance, power);
+    }
+
+    private List<Double> getNormalizedList(List<Double> inverseDistances) {
+        boolean doesContainCloseValue = false;
+        int closeIndex = 0;
+        for (int i = 0; i < inverseDistances.size(); i++) {
+            if (inverseDistances.get(i) > EPSILON_INVERSE_DISTANCE_THRESHOLD) {
+                doesContainCloseValue = true;
+                closeIndex = i;
+                break;
+            }
+        }
+        if (doesContainCloseValue) {
+            for (int i = 0; i < inverseDistances.size(); i++) {
+                double value = (i == closeIndex) ? 1 : 0;
+                inverseDistances.set(i, value);
+            }
+        }
+        return inverseDistances;
     }
 
 }

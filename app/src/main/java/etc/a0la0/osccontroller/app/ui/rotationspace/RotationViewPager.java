@@ -6,17 +6,14 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import etc.a0la0.osccontroller.R;
-import etc.a0la0.osccontroller.app.data.entities.Preset;
 
 public interface RotationViewPager {
 
     View instantiatePagerView(ViewGroup viewPager);
-    void onDestroy();
     int getTitleResource();
-    void onSelect();
-    void onUnselect();
-    void setPresetList(List<Preset> presetList);
     void onAccelerometerChange(float[] accelerometerData);
+    void setMessageDelegate(RotationSpaceActivity.MessageDelegate messageDelegate);
+    void setTrainingSet(List<TrainingInstance> trainingData);
 
     class TrainView implements RotationViewPager {
         PagerTrainView pagerTrainView;
@@ -28,35 +25,13 @@ public interface RotationViewPager {
         }
 
         @Override
-        public void onDestroy() {
-            if (pagerTrainView != null) {
-                pagerTrainView.onDestroy();
-            }
-        }
-
-        @Override
         public int getTitleResource() {
             return R.string.train;
         }
 
-        @Override
-        public void onSelect() {
+        public void setNumberOfPresets(int numberOfPresets) {
             if (pagerTrainView != null) {
-                pagerTrainView.onSelect();
-            }
-        }
-
-        @Override
-        public void onUnselect() {
-            if (pagerTrainView != null) {
-                pagerTrainView.onUnselect();
-            }
-        }
-
-        @Override
-        public void setPresetList(List<Preset> presetList) {
-            if (pagerTrainView != null) {
-                pagerTrainView.setPresetList(presetList);
+                pagerTrainView.setNumberOfPresets(numberOfPresets);
             }
         }
 
@@ -67,8 +42,14 @@ public interface RotationViewPager {
             }
         }
 
-        public void setMessageDelegate(PagerTrainView.MessageDelegate messageDelegate) {
-            pagerTrainView.setMessageDelegate(messageDelegate);
+        @Override
+        public void setTrainingSet(List<TrainingInstance> trainingData) {}
+
+        @Override
+        public void setMessageDelegate(RotationSpaceActivity.MessageDelegate messageDelegate) {
+            if (pagerTrainView != null) {
+                pagerTrainView.setMessageDelegate(messageDelegate);
+            }
         }
 
     }
@@ -83,36 +64,8 @@ public interface RotationViewPager {
         }
 
         @Override
-        public void onDestroy() {
-            if (pagerClassifyView != null) {
-                pagerClassifyView.onDestroy();
-            }
-        }
-
-        @Override
         public int getTitleResource() {
             return R.string.classify;
-        }
-
-        @Override
-        public void onSelect() {
-            if (pagerClassifyView != null) {
-                pagerClassifyView.onSelect();
-            }
-        }
-
-        @Override
-        public void onUnselect() {
-            if (pagerClassifyView != null) {
-                pagerClassifyView.onUnselect();
-            }
-        }
-
-        @Override
-        public void setPresetList(List<Preset> presetList) {
-            if (pagerClassifyView != null) {
-                pagerClassifyView.setPresetList(presetList);
-            }
         }
 
         @Override
@@ -122,9 +75,17 @@ public interface RotationViewPager {
             }
         }
 
+        @Override
         public void setTrainingSet(List<TrainingInstance> trainingData) {
             if (pagerClassifyView != null) {
                 pagerClassifyView.setTrainingSet(trainingData);
+            }
+        }
+
+        @Override
+        public void setMessageDelegate(RotationSpaceActivity.MessageDelegate messageDelegate) {
+            if (pagerClassifyView != null) {
+                pagerClassifyView.setMessageDelegate(messageDelegate);
             }
         }
 
@@ -140,36 +101,8 @@ public interface RotationViewPager {
         }
 
         @Override
-        public void onDestroy() {
-            if (pagerInterpolateView != null) {
-                pagerInterpolateView.onDestroy();
-            }
-        }
-
-        @Override
         public int getTitleResource() {
             return R.string.interpolate;
-        }
-
-        @Override
-        public void onSelect() {
-            if (pagerInterpolateView != null) {
-                pagerInterpolateView.onSelect();
-            }
-        }
-
-        @Override
-        public void onUnselect() {
-            if (pagerInterpolateView != null) {
-                pagerInterpolateView.onUnselect();
-            }
-        }
-
-        @Override
-        public void setPresetList(List<Preset> presetList) {
-            if (pagerInterpolateView != null) {
-                pagerInterpolateView.setPresetList(presetList);
-            }
         }
 
         @Override
@@ -182,6 +115,13 @@ public interface RotationViewPager {
         public void setTrainingSet(List<TrainingInstance> trainingData) {
             if (pagerInterpolateView != null) {
                 pagerInterpolateView.setTrainingSet(trainingData);
+            }
+        }
+
+        @Override
+        public void setMessageDelegate(RotationSpaceActivity.MessageDelegate messageDelegate) {
+            if (pagerInterpolateView != null) {
+                pagerInterpolateView.setMessageDelegate(messageDelegate);
             }
         }
 

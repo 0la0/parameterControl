@@ -16,13 +16,12 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import etc.a0la0.osccontroller.R;
-import etc.a0la0.osccontroller.app.data.entities.Preset;
 
 public class PagerTrainView extends FrameLayout {
 
     @BindView(R.id.presetContainer) LinearLayout presetContainer;
 
-    private List<Preset> presetList;
+    private int numberOfPresets;
     private List<PresetElement> presetElementList;
     private List<TrainingInstance> trainingSet;
     private int[] presetTrainingInstanceCount;
@@ -30,24 +29,17 @@ public class PagerTrainView extends FrameLayout {
     private int selectedIndex = 0;
     private boolean isCollectingTrainingInstances = false;
     private final int TRAINING_INSTACE_THRESHOLD = 6;
-    private MessageDelegate messageDelegate;
-
-    interface MessageDelegate {
-        void setTrainingSet(List<TrainingInstance> trainingSet);
-    }
+    private RotationSpaceActivity.MessageDelegate messageDelegate;
 
     public PagerTrainView(Context context) {
         super(context);
     }
-
     public PagerTrainView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
     public PagerTrainView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
     public static PagerTrainView inflate(ViewGroup group, boolean attachToRoot){
         return (PagerTrainView) LayoutInflater.from(group.getContext()).inflate(R.layout.rotation_train, group, attachToRoot);
     }
@@ -58,39 +50,20 @@ public class PagerTrainView extends FrameLayout {
         if (isInEditMode()) {
             return;
         }
-        init();
-    }
-
-    private void init(){
         ButterKnife.bind(this);
-        Log.i("Train", "init");
-        //presenter.attachView(this);
     }
 
-    public void onDestroy() {
-        Log.i("Train", "onDestroy");
-        //presenter.detachView();
-    }
-
-    public void onSelect() {
-        Log.i("Train", "onSelect");
-    }
-
-    public void onUnselect() {
-        Log.i("Train", "onUnselect");
-    }
-
-    public void setMessageDelegate(MessageDelegate messageDelegate) {
+    public void setMessageDelegate(RotationSpaceActivity.MessageDelegate messageDelegate) {
         this.messageDelegate = messageDelegate;
     }
 
-    public void setPresetList(List<Preset> presetList) {
-        this.presetList = presetList;
+    public void setNumberOfPresets(int numberOfPresets) {
+        this.numberOfPresets = numberOfPresets;
         selectedIndex = 0;
 
         presetContainer.removeAllViews();
         presetElementList = new ArrayList<>();
-        presetTrainingInstanceCount = new int[presetList.size()];
+        presetTrainingInstanceCount = new int[numberOfPresets];
         trainingSet = new ArrayList<>();
 
         clearTrainingSet();
@@ -102,7 +75,7 @@ public class PagerTrainView extends FrameLayout {
             }
         };
 
-        for (int i = 0; i < presetList.size(); i++) {
+        for (int i = 0; i < numberOfPresets; i++) {
             PresetElement presetElement = new PresetElement(getContext(), i, clickDelegate);
             presetElementList.add(presetElement);
             presetContainer.addView(presetElement);
@@ -119,7 +92,7 @@ public class PagerTrainView extends FrameLayout {
     public void onAddInstanceClick(boolean isChecked) {
         isCollectingTrainingInstances = isChecked;
         if (!isChecked) {
-            int nextIndex = Math.min(selectedIndex + 1, presetList.size() -1);
+            int nextIndex = Math.min(selectedIndex + 1, numberOfPresets -1);
             setSelectedIndex(nextIndex);
         }
     }

@@ -2,7 +2,6 @@ package etc.a0la0.osccontroller.app.ui.rotationspace;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -13,30 +12,26 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import etc.a0la0.osccontroller.R;
-import etc.a0la0.osccontroller.app.data.entities.Preset;
 
 public class PagerClassifyView extends FrameLayout {
 
     @BindView(R.id.classificationOutput) TextView classificationOutput;
 
-    private List<Preset> presetList;
     private List<TrainingInstance> trainingData;
     private KnnClassifier knnClassifier;
     private final int KNN = 5;
     private int currentClassification = 0;
+    private RotationSpaceActivity.MessageDelegate messageDelegate;
 
     public PagerClassifyView(Context context) {
         super(context);
     }
-
     public PagerClassifyView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
     public PagerClassifyView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
     public static PagerClassifyView inflate(ViewGroup group, boolean attachToRoot){
         return (PagerClassifyView) LayoutInflater.from(group.getContext()).inflate(R.layout.rotation_classify, group, attachToRoot);
     }
@@ -47,30 +42,7 @@ public class PagerClassifyView extends FrameLayout {
         if (isInEditMode()) {
             return;
         }
-        init();
-    }
-
-    private void init(){
         ButterKnife.bind(this);
-        Log.i("Classify", "init");
-        //presenter.attachView(this);
-    }
-
-    public void onDestroy() {
-        Log.i("Classify", "onDestroy");
-        //presenter.detachView();
-    }
-
-    public void onSelect() {
-        Log.i("Classify", "onSelect");
-    }
-
-    public void onUnselect() {
-        Log.i("Classify", "onUnselect");
-    }
-
-    public void setPresetList(List<Preset> presetList) {
-        this.presetList = presetList;
     }
 
     public void onAccelerometerChange(float[] accelerometerData) {
@@ -83,6 +55,9 @@ public class PagerClassifyView extends FrameLayout {
             ));
             if (classification != currentClassification) {
                 currentClassification = classification;
+                if (messageDelegate != null) {
+                    messageDelegate.onUpdateWeightList(currentClassification);
+                }
                 classificationOutput.setText("Classification: " + classification);
             }
         }
@@ -92,6 +67,10 @@ public class PagerClassifyView extends FrameLayout {
         this.trainingData = trainingData;
         knnClassifier = new KnnClassifier(KNN, trainingData);
         knnClassifier.createModel();
+    }
+
+    public void setMessageDelegate(RotationSpaceActivity.MessageDelegate messageDelegate) {
+        this.messageDelegate = messageDelegate;
     }
 
 }
