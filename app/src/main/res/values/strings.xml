@@ -25,7 +25,6 @@
     <string name="play_parameter_space">Play Parameter Space</string>
     <string name="edit_parameter_space">Edit Parameter Space</string>
     <string name="tilt_parameter_space">Tilt Parameter Space</string>
-    <string name="rotation_space">Rotation Space</string>
     <string name="standard_deviation">Standard Deviation</string>
     <string name="amplitude">Amplitude</string>
     <string name="color">Color</string>
@@ -34,11 +33,15 @@
     <string name="blue">Blue</string>
 
     <!-- Rotation Space Activity -->
+    <string name="rotation_space">Rotation Space</string>
     <string name="train">Train</string>
     <string name="classify">Classify</string>
     <string name="interpolate">Interpolate</string>
     <string name="clear">Clear</string>
     <string name="add_training_instance">Add Training Instance</string>
     <string name="adding_training_instances">Adding Training Instances</string>
+
+    <!-- Shift Space Activity -->
+    <string name="shift_space">Shift Space</string>
 
 </resources>

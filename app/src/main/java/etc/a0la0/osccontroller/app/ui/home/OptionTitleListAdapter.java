@@ -29,6 +29,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         void onParamSpacePlayClick(int position);
         void onParamSpaceTiltClick(int position);
         void onRotationSpaceClick(int position);
+        void onShiftSpaceClick(int position);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -40,6 +41,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         @BindView(R.id.optionParamSpacePlay) TextView optionParamSpacePlay;
         @BindView(R.id.optionParamSpaceTilt) TextView optionParamSpaceTilt;
         @BindView(R.id.optionRotationSpace) TextView optionRotationSpace;
+        @BindView(R.id.optionShiftSpace) TextView optionShiftSpace;
         @BindView(R.id.optionDelete) ImageView optionDelete;
         @BindView(R.id.optionCardToggle) ImageView cardToggle;
         @BindView(R.id.optionCardHeader) RelativeLayout header;
@@ -86,6 +88,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         viewHolder.optionParamSpacePlay.setOnClickListener(view -> clickDelegate.onParamSpacePlayClick(position));
         viewHolder.optionParamSpaceTilt.setOnClickListener(view -> clickDelegate.onParamSpaceTiltClick(position));
         viewHolder.optionRotationSpace.setOnClickListener(view -> clickDelegate.onRotationSpaceClick(position));
+        viewHolder.optionShiftSpace.setOnClickListener(view -> clickDelegate.onShiftSpaceClick(position));
     }
 
     @Override

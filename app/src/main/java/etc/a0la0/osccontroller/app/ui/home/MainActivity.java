@@ -19,6 +19,7 @@ import etc.a0la0.osccontroller.app.ui.parameterspace.playspace.PlaySpaceActivity
 import etc.a0la0.osccontroller.app.ui.parameterspace.tiltspace.TiltSpaceActivity;
 import etc.a0la0.osccontroller.app.ui.rotationspace.RotationSpaceActivity;
 import etc.a0la0.osccontroller.app.ui.setup.SetupActivity;
+import etc.a0la0.osccontroller.app.ui.shiftspace.ShiftSpaceActivity;
 
 public class MainActivity extends BaseActivity implements MainPresenter.MainActivityView{
 
@@ -118,6 +119,11 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainActi
         @Override
         public void onRotationSpaceClick(int position) {
             startActivity(position, RotationSpaceActivity.class);
+        }
+
+        @Override
+        public void onShiftSpaceClick(int position) {
+            startActivity(position, ShiftSpaceActivity.class);
         }
 
     }

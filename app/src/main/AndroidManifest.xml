@@ -15,7 +15,6 @@
         <activity android:name=".app.ui.home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -51,6 +50,10 @@
             android:label="@string/rotation_space"
             android:parentActivityName=".app.ui.home.MainActivity" />
 
+        <activity
+            android:name=".app.ui.shiftspace.ShiftSpaceActivity"
+            android:label="@string/shift_space"
+            android:parentActivityName=".app.ui.home.MainActivity" />
 
     </application>
 

@@ -10,4 +10,7 @@
     <dimen name="preset_font_size">30sp</dimen>
     <dimen name="space_preset_icon_size">40dp</dimen>
     <dimen name="space_preset_icon_half_size">20dp</dimen>
+
+    <dimen name="shift_space_gradient_default">140dp</dimen>
+    <dimen name="shift_space_gradient_radius">70dp</dimen>
 </resources>

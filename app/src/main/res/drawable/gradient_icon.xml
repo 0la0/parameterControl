@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#00000000" >
+    <gradient
+        android:type="radial"
+        android:gradientRadius="@dimen/shift_space_gradient_radius"
+        android:startColor="#000000"
+        android:endColor="#00FFFFFF" />
+    <size
+        android:width="@dimen/shift_space_gradient_default"
+        android:height="@dimen/shift_space_gradient_default" />
+</shape>
