@@ -20,6 +20,10 @@ public class LocationOscPacketHelper {
                 .map(spacePreset -> Math.min(1f, spacePreset.getValue(x, y))) //maybe cap at 1 another place?
                 .collect(Collectors.toList());
 
+        return getPacketFromWeights(weightList, parameterList, presetValueList);
+    }
+
+    public static OSCBundle getPacketFromWeights(List<Float> weightList, List<Parameter> parameterList, List<Preset> presetValueList) {
         float weightSum = Stream.of(weightList)
                 .reduce(0.0f, (sum, weight) -> sum + weight);
 

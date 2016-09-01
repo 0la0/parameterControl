@@ -2,7 +2,6 @@ package etc.a0la0.osccontroller.app.ui.shiftspace;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -45,7 +44,7 @@ public class ShiftSpaceActivity extends BaseActivity implements ShiftSpacePresen
         calculateDimensions();
         gradientViewList = new ArrayList<>();
 
-        int numberOfPresets = presenter.getNumberOfPresets();
+        int numberOfPresets = presenter.getNumberOfPresets() - 1;
         for (int i = 0; i < numberOfPresets; i++) {
             GradientView gradientView = createGradientView();
             gradientViewList.add(gradientView);
@@ -84,10 +83,14 @@ public class ShiftSpaceActivity extends BaseActivity implements ShiftSpacePresen
     }
 
     private void onGradientChange() {
-        List<Float> weightList = Stream.of(gradientViewList)
+        List<Float> weights = Stream.of(gradientViewList)
                 .map(gradientView -> gradientView.getWeight(halfWidth, halfHeight))
                 .collect(Collectors.toList());
-        Log.i("weightList", weightList.toString());
+        List<Float> weightList = new ArrayList<>();
+        weightList.add(0f);
+        weightList.addAll(weights);
+
+        presenter.onGradientChange(weightList);
     }
 
     private void calculateDimensions() {
