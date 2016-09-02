@@ -18,7 +18,7 @@ public class OscClient {
     private int port;
     private OSCPortOut oscPortOut;
     private Thread oscWorker;
-    private final BlockingQueue<OSCPacket> oscPacketQueue = new LinkedBlockingQueue<OSCPacket>();
+    private final BlockingQueue<OSCPacket> oscPacketQueue = new LinkedBlockingQueue<>();
 
     public OscClient(String oscServerAddress, int port) {
         this.oscServerAddress = oscServerAddress;
@@ -26,7 +26,7 @@ public class OscClient {
     }
 
     public void start() {
-        oscWorker = buildServerThread();
+        oscWorker = buildThread();
         oscWorker.start();
     }
 
@@ -34,7 +34,7 @@ public class OscClient {
         oscWorker.interrupt();
     }
 
-    private Thread buildServerThread () {
+    private Thread buildThread () {
         return new Thread () {
             @Override
             public void run() {

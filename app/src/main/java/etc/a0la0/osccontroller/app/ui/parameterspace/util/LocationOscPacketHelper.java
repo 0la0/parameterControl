@@ -11,17 +11,8 @@ import java.util.List;
 
 import etc.a0la0.osccontroller.app.data.entities.Parameter;
 import etc.a0la0.osccontroller.app.data.entities.Preset;
-import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 
 public class LocationOscPacketHelper {
-
-    public static OSCPacket getPacketForLocation(int x, int y, List<SpacePreset> spacePresetList, List<Parameter> parameterList, List<Preset> presetValueList) {
-        List<Float> weightList = Stream.of(spacePresetList)
-                .map(spacePreset -> Math.min(1f, spacePreset.getValue(x, y))) //maybe cap at 1 another place?
-                .collect(Collectors.toList());
-
-        return getPacketFromWeights(weightList, parameterList, presetValueList);
-    }
 
     public static OSCBundle getPacketFromWeights(List<Float> weightList, List<Parameter> parameterList, List<Preset> presetValueList) {
         float weightSum = Stream.of(weightList)

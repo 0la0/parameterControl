@@ -4,6 +4,8 @@ import android.content.Context;
 import android.hardware.SensorManager;
 import android.util.Log;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 import com.illposed.osc.OSCPacket;
 
 import java.util.List;
@@ -17,12 +19,12 @@ import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 import etc.a0la0.osccontroller.app.osc.OscClient;
 import etc.a0la0.osccontroller.app.ui.base.BasePresenter;
 import etc.a0la0.osccontroller.app.ui.base.BaseView;
+import etc.a0la0.osccontroller.app.ui.parameterspace.util.LocationOscPacketHelper;
 import etc.a0la0.osccontroller.app.ui.util.AccelerometerProvider;
 import rx.Observable;
 
 public class TiltSpacePresenter extends BasePresenter<TiltSpacePresenter.View> {
 
-    private int position;
     private Model dataModel;
     private OscClient oscClient;
     private AccelerometerProvider accelerometerProvider;
@@ -35,17 +37,24 @@ public class TiltSpacePresenter extends BasePresenter<TiltSpacePresenter.View> {
     private final float TIME_MULTIPLIER = 1 / 5000000.0f;
     private final float MAX_VALUE = 100.0f;
 
+    private List<Preset> presetValueList;
+    private List<SpacePreset> spacePresetList;
+    private List<Parameter> parameterList;
+
     interface View extends BaseView {
         void setIconPosition(int x, int y);
         Observable<Integer> getSliderObservable();
     }
 
     public void init(Context context, int position) {
-        this.position = position;
         dataModel = ModelProvider.getModel(context);
 
         Option option = dataModel.getOptionList().get(position);
         oscClient = new OscClient(option.getIpAddress(), option.getPort());
+
+        presetValueList = dataModel.getOptionList().get(position).getPresetList();
+        spacePresetList = dataModel.getOptionList().get(position).getSpacePresetList();
+        parameterList = dataModel.getOptionList().get(position).getParameterList();
     }
 
     public void observeSlider() {
@@ -88,20 +97,8 @@ public class TiltSpacePresenter extends BasePresenter<TiltSpacePresenter.View> {
         subscriptions.clear();
     }
 
-    public List<Parameter> getParameterList() {
-        return dataModel.getOptionList().get(position).getParameterList();
-    }
-
-    public List<Preset> getPresetList() {
-        return dataModel.getOptionList().get(position).getPresetList();
-    }
-
     public List<SpacePreset> getSpacePresetList() {
-        List<SpacePreset> presetList = dataModel.getOptionList().get(position).getSpacePresetList();
-        if (presetList == null) {
-            //TODO: catch error
-        }
-        return presetList;
+        return spacePresetList;
     }
 
     public void setDimensions(int x, int y) {
@@ -127,7 +124,12 @@ public class TiltSpacePresenter extends BasePresenter<TiltSpacePresenter.View> {
         view.setIconPosition(iconPositionX, iconPositionY);
     }
 
-    public void sendOscPacket(OSCPacket oscPacket) {
+    public void onLocationChange(int x, int y) {
+        List<Float> weightList = Stream.of(spacePresetList)
+                .map(spacePreset -> Math.min(1f, spacePreset.getValue(x, y)))
+                .collect(Collectors.toList());
+
+        OSCPacket oscPacket = LocationOscPacketHelper.getPacketFromWeights(weightList, parameterList, presetValueList);
         oscClient.send(oscPacket);
     }
 

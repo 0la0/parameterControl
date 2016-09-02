@@ -5,18 +5,13 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.illposed.osc.OSCPacket;
-
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnTouch;
 import etc.a0la0.osccontroller.R;
-import etc.a0la0.osccontroller.app.data.entities.Parameter;
-import etc.a0la0.osccontroller.app.data.entities.Preset;
 import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 import etc.a0la0.osccontroller.app.ui.base.BaseActivity;
-import etc.a0la0.osccontroller.app.ui.parameterspace.util.LocationOscPacketHelper;
 import etc.a0la0.osccontroller.app.ui.parameterspace.views.EditSpaceView;
 
 public class PlaySpaceActivity extends BaseActivity implements PlaySpacePresenter.View {
@@ -24,10 +19,7 @@ public class PlaySpaceActivity extends BaseActivity implements PlaySpacePresente
     @BindView(R.id.editSpaceView) EditSpaceView editSpaceView;
 
     private PlaySpacePresenter presenter = new PlaySpacePresenter();
-    private List<Preset> presetValueList;
     private List<SpacePreset> spacePresetList;
-    private List<Parameter> parameterList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +38,7 @@ public class PlaySpaceActivity extends BaseActivity implements PlaySpacePresente
         int position = intent.getIntExtra(getString(R.string.option_id), 0);
         presenter.init(this, position);
 
-        presetValueList = presenter.getPresetList();
         spacePresetList = presenter.getSpacePresetList();
-        parameterList = presenter.getParameterList();
-
         editSpaceView.init(position, spacePresetList);
     }
 
@@ -80,9 +69,7 @@ public class PlaySpaceActivity extends BaseActivity implements PlaySpacePresente
         if (eventAction != MotionEvent.ACTION_DOWN && eventAction != MotionEvent.ACTION_MOVE) {
             return true;
         }
-
-        OSCPacket oscPacket = LocationOscPacketHelper.getPacketForLocation(x, y, spacePresetList, parameterList, presetValueList);
-        presenter.sendOscPacket(oscPacket);
+        presenter.onLocationChange(x, y);
         return true;
     }
 

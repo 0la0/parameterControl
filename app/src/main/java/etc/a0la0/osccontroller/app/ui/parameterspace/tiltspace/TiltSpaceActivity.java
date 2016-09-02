@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
-import com.illposed.osc.OSCPacket;
 import com.jakewharton.rxbinding.widget.RxSeekBar;
 
 import java.util.List;
@@ -18,11 +17,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnTouch;
 import etc.a0la0.osccontroller.R;
-import etc.a0la0.osccontroller.app.data.entities.Parameter;
-import etc.a0la0.osccontroller.app.data.entities.Preset;
 import etc.a0la0.osccontroller.app.data.entities.SpacePreset;
 import etc.a0la0.osccontroller.app.ui.base.BaseActivity;
-import etc.a0la0.osccontroller.app.ui.parameterspace.util.LocationOscPacketHelper;
 import etc.a0la0.osccontroller.app.ui.parameterspace.views.EditSpaceView;
 import rx.Observable;
 
@@ -34,9 +30,7 @@ public class TiltSpaceActivity extends BaseActivity implements TiltSpacePresente
 
     private int ICON_HALF_SIZE;
     private TiltSpacePresenter presenter = new TiltSpacePresenter();
-    private List<Preset> presetValueList;
     private List<SpacePreset> spacePresetList;
-    private List<Parameter> parameterList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +50,7 @@ public class TiltSpaceActivity extends BaseActivity implements TiltSpacePresente
         presenter.init(this, position);
 
         ICON_HALF_SIZE = (int) getResources().getDimension(R.dimen.space_preset_icon_half_size);
-        presetValueList = presenter.getPresetList();
         spacePresetList = presenter.getSpacePresetList();
-        parameterList = presenter.getParameterList();
-
         editSpaceView.init(position, spacePresetList);
         editSpaceView.setEventDelegate((int width, int height) -> {
             presenter.setDimensions(width, height);
@@ -110,10 +101,7 @@ public class TiltSpaceActivity extends BaseActivity implements TiltSpacePresente
     public void setIconPosition(int x, int y) {
         tiltIcon.setX(x - ICON_HALF_SIZE);
         tiltIcon.setY(y - ICON_HALF_SIZE);
-
-        //move this to the presenter
-        OSCPacket oscPacket = LocationOscPacketHelper.getPacketForLocation(x, y, spacePresetList, parameterList, presetValueList);
-        presenter.sendOscPacket(oscPacket);
+        presenter.onLocationChange(x, y);
     }
 
 }
