@@ -5,6 +5,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:layout_margin="5dp"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="4dp" >
@@ -45,6 +46,7 @@
                 android:id="@+id/optionEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                style="@style/optionCardText"
                 android:text="@string/edit" />
 
             <TextView
@@ -52,34 +54,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/optionEdit"
+                style="@style/optionCardText"
                 android:text="@string/setup" />
+
+            <TextView
+                android:id="@+id/parameterSpaceLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/optionSetup"
+                style="@style/optionCardText"
+                android:text="@string/parameter_space" />
 
             <TextView
                 android:id="@+id/optionParamSpaceEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/optionSetup"
-                android:text="@string/edit_parameter_space" />
+                android:layout_below="@+id/parameterSpaceLabel"
+                style="@style/optionCardText.Indent"
+                android:text="@string/bullet_edit" />
 
             <TextView
                 android:id="@+id/optionParamSpacePlay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/optionParamSpaceEdit"
-                android:text="@string/play_parameter_space" />
+                style="@style/optionCardText.Indent"
+                android:text="@string/bullet_play" />
 
             <TextView
                 android:id="@+id/optionParamSpaceTilt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/optionParamSpacePlay"
-                android:text="@string/tilt_parameter_space" />
+                style="@style/optionCardText.Indent"
+                android:text="@string/bullet_tilt" />
 
             <TextView
                 android:id="@+id/optionRotationSpace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/optionParamSpaceTilt"
+                style="@style/optionCardText"
                 android:text="@string/rotation_space" />
 
             <TextView
@@ -87,6 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/optionRotationSpace"
+                style="@style/optionCardText"
                 android:text="@string/shift_space" />
 
             <ImageView

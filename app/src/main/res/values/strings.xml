@@ -22,9 +22,13 @@
     <string name="setup">Setup</string>
 
     <!-- Parameter Space Activity -->
+    <string name="parameter_space">Parameter Space</string>
     <string name="play_parameter_space">Play Parameter Space</string>
     <string name="edit_parameter_space">Edit Parameter Space</string>
     <string name="tilt_parameter_space">Tilt Parameter Space</string>
+    <string name="bullet_edit">\u2022 edit</string>
+    <string name="bullet_play">\u2022 play</string>
+    <string name="bullet_tilt">\u2022 tilt</string>
     <string name="standard_deviation">Standard Deviation</string>
     <string name="amplitude">Amplitude</string>
     <string name="color">Color</string>

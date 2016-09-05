@@ -2,7 +2,6 @@ package etc.a0la0.osccontroller.app.ui.home;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,11 @@ import etc.a0la0.osccontroller.R;
 
 public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleListAdapter.ViewHolder> {
 
+    private int selectedPosition = -1;
     private List<String> optionTitleList;
-    private ClickDelegates clickDelegate;
+    private ClickDelegate clickDelegate;
 
-    public interface ClickDelegates {
+    public interface ClickDelegate {
         void onEditClick(int position);
         void onSetupClick(int position);
         void onRemoveClick(int position);
@@ -53,7 +53,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         }
     }
 
-    public OptionTitleListAdapter(List<String> optionTitleList, ClickDelegates clickDelegate) {
+    public OptionTitleListAdapter(List<String> optionTitleList, ClickDelegate clickDelegate) {
         this.optionTitleList = optionTitleList;
         this.clickDelegate = clickDelegate;
     }
@@ -67,18 +67,17 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        boolean isExpanded = position == selectedPosition;
+        viewHolder.expandable.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+
         viewHolder.name.setText(optionTitleList.get(position));
 
         viewHolder.header.setOnClickListener((View view) -> {
-            Log.i("-----", "click");
-            if (viewHolder.expandable.getVisibility() == View.GONE) {
-                viewHolder.expandable.setVisibility(View.VISIBLE);
-                viewHolder.cardToggle.setImageResource(R.drawable.ic_expand_less_black_24dp);
+            if (selectedPosition >= 0) {
+                notifyItemChanged(selectedPosition);
             }
-            else if (viewHolder.expandable.getVisibility() == View.VISIBLE){
-                viewHolder.expandable.setVisibility(View.GONE);
-                viewHolder.cardToggle.setImageResource(R.drawable.ic_expand_more_black_24dp);
-            }
+            selectedPosition = position;
+            notifyItemChanged(selectedPosition);
         });
 
         viewHolder.optionDelete.setOnClickListener(view -> clickDelegate.onRemoveClick(position));

@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainActi
         startActivity(intent);
     }
 
-    private class OptionClickDelegates implements OptionTitleListAdapter.ClickDelegates {
+    private class OptionClickDelegates implements OptionTitleListAdapter.ClickDelegate {
 
         private Context context;
 
