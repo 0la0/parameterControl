@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/shiftSpaceGradient"
-    android:layout_width="@dimen/space_preset_icon_size"
-    android:layout_height="@dimen/space_preset_icon_size"
-    android:tint="@color/white"
-    app:srcCompat="@drawable/ic_circle" />
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/presetIcon"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/presetLabel"
+        android:layout_width="@dimen/preset_icon_width"
+        android:layout_height="@dimen/preset_icon_height"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="@dimen/preset_font_size"
+        tools:text="1"/>
+
+</LinearLayout>

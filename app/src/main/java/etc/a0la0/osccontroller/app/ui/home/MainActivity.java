@@ -81,11 +81,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainActi
         }
 
         @Override
-        public void onEditClick(int position) {
-            startActivity(position, EditActivity.class);
-        }
-
-        @Override
         public void onRemoveClick(int position) {
             new AlertDialog.Builder(context)
                     .setTitle(getString(R.string.remove_option))
@@ -97,8 +92,13 @@ public class MainActivity extends BaseActivity implements MainPresenter.MainActi
         }
 
         @Override
-        public void onSetupClick(int position) {
+        public void onEditPresetClick(int position) {
             startActivity(position, SetupActivity.class);
+        }
+
+        @Override
+        public void onSetupClick(int position) {
+            startActivity(position, EditActivity.class);
         }
 
         @Override

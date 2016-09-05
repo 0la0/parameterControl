@@ -10,6 +10,11 @@
 
     <!-- Home Activity -->
     <string name="remove_option">Remove option?</string>
+    <string name="setup_parameters">Setup &amp; Edit Parameters</string>
+    <string name="play">Play</string>
+    <string name="tilt">Tilt</string>
+    <string name="edit_presets">Edit Presets</string>
+    <string name="edit_space">Edit Space</string>
 
     <!-- Edit Activity -->
     <string name="edit">Edit</string>
@@ -26,9 +31,6 @@
     <string name="play_parameter_space">Play Parameter Space</string>
     <string name="edit_parameter_space">Edit Parameter Space</string>
     <string name="tilt_parameter_space">Tilt Parameter Space</string>
-    <string name="bullet_edit">\u2022 edit</string>
-    <string name="bullet_play">\u2022 play</string>
-    <string name="bullet_tilt">\u2022 tilt</string>
     <string name="standard_deviation">Standard Deviation</string>
     <string name="amplitude">Amplitude</string>
     <string name="color">Color</string>

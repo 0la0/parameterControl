@@ -24,6 +24,9 @@
                 android:id="@+id/optionName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_centerVertical="true"
+                android:textSize="18sp"
                 tools:text="Untitled1"/>
 
             <ImageView
@@ -31,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/ic_expand_more_black_24dp"/>
 
         </RelativeLayout>
@@ -40,70 +44,108 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:visibility="gone" >
+            android:visibility="visible" >
 
             <TextView
-                android:id="@+id/optionEdit"
+                android:id="@+id/setupTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/optionCardText"
-                android:text="@string/edit" />
+                style="@style/optionCardHeader"
+                android:text="@string/setup_parameters" />
 
-            <TextView
-                android:id="@+id/optionSetup"
+            <LinearLayout
+                android:id="@+id/setupOptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/optionEdit"
-                style="@style/optionCardText"
-                android:text="@string/setup" />
+                android:layout_below="@+id/setupTitle"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/optionSetup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/optionCardButton"
+                    android:text="@string/setup" />
+
+                <TextView
+                    android:id="@+id/optionEditPreset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/optionCardButton"
+                    android:text="@string/edit_presets" />
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/parameterSpaceLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/optionSetup"
-                style="@style/optionCardText"
+                android:layout_below="@+id/setupOptions"
+                style="@style/optionCardHeader"
                 android:text="@string/parameter_space" />
 
-            <TextView
-                android:id="@+id/optionParamSpaceEdit"
+            <LinearLayout
+                android:id="@+id/paramSpaceOptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/parameterSpaceLabel"
-                style="@style/optionCardText.Indent"
-                android:text="@string/bullet_edit" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/optionParamSpaceEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/optionCardButton"
+                    android:text="@string/edit_space" />
+
+                <TextView
+                    android:id="@+id/optionParamSpacePlay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/optionCardButton"
+                    android:text="@string/play" />
+
+                <TextView
+                    android:id="@+id/optionParamSpaceTilt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/optionCardButton"
+                    android:text="@string/tilt" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/optionParamSpacePlay"
+                android:id="@+id/optionRotationHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/optionParamSpaceEdit"
-                style="@style/optionCardText.Indent"
-                android:text="@string/bullet_play" />
-
-            <TextView
-                android:id="@+id/optionParamSpaceTilt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/optionParamSpacePlay"
-                style="@style/optionCardText.Indent"
-                android:text="@string/bullet_tilt" />
+                android:layout_below="@+id/paramSpaceOptions"
+                style="@style/optionCardHeader"
+                android:text="@string/rotation_space" />
 
             <TextView
                 android:id="@+id/optionRotationSpace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/optionParamSpaceTilt"
-                style="@style/optionCardText"
-                android:text="@string/rotation_space" />
+                android:layout_below="@+id/optionRotationHeader"
+                style="@style/optionCardButton"
+                android:text="@string/play" />
+
+            <TextView
+                android:id="@+id/optionShiftSpaceHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/optionRotationSpace"
+                style="@style/optionCardHeader"
+                android:text="@string/shift_space" />
 
             <TextView
                 android:id="@+id/optionShiftSpace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/optionRotationSpace"
-                style="@style/optionCardText"
-                android:text="@string/shift_space" />
+                android:layout_below="@+id/optionShiftSpaceHeader"
+                style="@style/optionCardButton"
+                android:text="@string/play" />
 
             <ImageView
                 android:id="@+id/optionDelete"

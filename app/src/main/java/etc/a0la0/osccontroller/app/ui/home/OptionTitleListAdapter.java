@@ -22,7 +22,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
     private ClickDelegate clickDelegate;
 
     public interface ClickDelegate {
-        void onEditClick(int position);
+        void onEditPresetClick(int position);
         void onSetupClick(int position);
         void onRemoveClick(int position);
         void onParamSpaceEditClick(int position);
@@ -35,8 +35,8 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.optionName) TextView name;
-        @BindView(R.id.optionEdit) TextView optionEdit;
         @BindView(R.id.optionSetup) TextView optionSetup;
+        @BindView(R.id.optionEditPreset) TextView optionEditPreset;
         @BindView(R.id.optionParamSpaceEdit) TextView optionParamSpaceEdit;
         @BindView(R.id.optionParamSpacePlay) TextView optionParamSpacePlay;
         @BindView(R.id.optionParamSpaceTilt) TextView optionParamSpaceTilt;
@@ -69,10 +69,18 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         boolean isExpanded = position == selectedPosition;
         viewHolder.expandable.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+        viewHolder.cardToggle.setImageResource(isExpanded ? R.drawable.ic_expand_less_black_24dp : R.drawable.ic_expand_more_black_24dp);
 
         viewHolder.name.setText(optionTitleList.get(position));
 
         viewHolder.header.setOnClickListener((View view) -> {
+            int previousPosition = selectedPosition;
+            if (position == selectedPosition) {
+                selectedPosition = -1;
+                notifyItemChanged(previousPosition);
+                return;
+            }
+
             if (selectedPosition >= 0) {
                 notifyItemChanged(selectedPosition);
             }
@@ -81,7 +89,7 @@ public class OptionTitleListAdapter extends RecyclerView.Adapter<OptionTitleList
         });
 
         viewHolder.optionDelete.setOnClickListener(view -> clickDelegate.onRemoveClick(position));
-        viewHolder.optionEdit.setOnClickListener(view -> clickDelegate.onEditClick(position));
+        viewHolder.optionEditPreset.setOnClickListener(view -> clickDelegate.onEditPresetClick(position));
         viewHolder.optionSetup.setOnClickListener(view -> clickDelegate.onSetupClick(position));
         viewHolder.optionParamSpaceEdit.setOnClickListener(view -> clickDelegate.onParamSpaceEditClick(position));
         viewHolder.optionParamSpacePlay.setOnClickListener(view -> clickDelegate.onParamSpacePlayClick(position));
