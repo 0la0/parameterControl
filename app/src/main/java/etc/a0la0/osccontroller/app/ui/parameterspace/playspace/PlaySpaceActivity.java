@@ -1,9 +1,13 @@
 package etc.a0la0.osccontroller.app.ui.parameterspace.playspace;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 
 import java.util.List;
 
@@ -62,14 +66,21 @@ public class PlaySpaceActivity extends BaseActivity implements PlaySpacePresente
 
     @OnTouch(R.id.editSpaceView)
     public boolean onTouch(View view, MotionEvent event) {
-        int eventAction = event.getAction();
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-
-        if (eventAction != MotionEvent.ACTION_DOWN && eventAction != MotionEvent.ACTION_MOVE) {
+        int touchCount = event.getPointerCount();
+        if (touchCount == 1 && event.getAction() != MotionEvent.ACTION_DOWN && event.getAction() != MotionEvent.ACTION_MOVE) {
             return true;
         }
-        presenter.onLocationChange(x, y);
+
+        if (touchCount == 1) {
+            presenter.onLocationChange((int) event.getX(0), (int) event.getY(0));
+        }
+        else {
+            List<Point> touchList = Stream.ofRange(0, touchCount)
+                    .map(index -> new Point((int) event.getX(index), (int) event.getY(index)))
+                    .collect(Collectors.toList());
+            presenter.onLocationChange(touchList);
+        }
+
         return true;
     }
 

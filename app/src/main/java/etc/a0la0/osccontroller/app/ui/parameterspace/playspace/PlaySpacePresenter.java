@@ -1,6 +1,7 @@
 package etc.a0la0.osccontroller.app.ui.parameterspace.playspace;
 
 import android.content.Context;
+import android.graphics.Point;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -58,6 +59,26 @@ public class PlaySpacePresenter extends BasePresenter<PlaySpacePresenter.View> {
                 .map(spacePreset -> Math.min(1f, spacePreset.getValue(x, y)))
                 .collect(Collectors.toList());
 
+        processWeightList(weightList);
+    }
+
+    public void onLocationChange(List<Point> touchList) {
+        int touchCount = touchList.size();
+
+        List<Float> weightList = Stream.of(spacePresetList)
+                .map(spacePreset -> {
+                    // calculate mean value of each preset at a given touch point
+                    return Stream.of(touchList)
+                            .map(touchPoint -> Math.min(1f, spacePreset.getValue(touchPoint.x, touchPoint.y)))
+                            .reduce(0.0, (sum, weight) -> sum + weight)
+                            .floatValue() / (touchCount * 1.0f);
+                })
+                .collect(Collectors.toList());
+
+        processWeightList(weightList);
+    }
+
+    private void processWeightList(List<Float> weightList) {
         OSCPacket oscPacket = LocationOscPacketHelper.getPacketFromWeights(weightList, parameterList, presetValueList);
         oscClient.send(oscPacket);
     }
